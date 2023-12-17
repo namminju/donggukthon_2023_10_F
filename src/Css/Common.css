@@ -1,0 +1,15 @@
+.full_container {
+    max-width: 420px;
+    position: relative;
+    margin: 0 auto;
+    overflow-x: hidden;
+    
+  }
+  @font-face{
+    font-family: "Pretendard";
+    src: url("../Font/Pretendard.ttf") format("truetype");
+  }
+
+  a {
+    text-decoration: none;
+  }

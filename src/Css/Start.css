@@ -1,0 +1,68 @@
+/* intro_ */
+.intro{
+    height: 100vh;
+    width: 100%;
+    background-image: url('../Image/Login/background.png'); /* Use 'url()' for the background-image property */
+    background-size: cover; /* Adjust as needed */
+    background-position: center; /* Adjust as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #37A0FF;
+}
+
+.igloo_intro{
+
+    /* 이글루 소개 두줄 정도로다가 짜란 */
+    position: relative;
+    text-align: center;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 30px;
+    /* or 125% */
+    /* leading-trim and text-edge are draft CSS properties.
+
+    Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+    */
+
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+}
+
+.igloo_intro_sub{
+    /* 이글루를 통해 이룰 수 있는 것 내용 짧게 짜라란 */
+
+    position: relative;
+    text-align: center;
+    margin: 2vh 0;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    /* or 111% */
+    /* leading-trim and text-edge are draft CSS properties.
+
+    Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+    */
+    line-height: 1.3;
+    text-transform: uppercase;
+
+    color: #FFFFFF;
+}
+
+.animal_freiends{
+    width:80%;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    justify-content:center;
+    align-items: end;
+    gap:auto;
+    margin: 4vh auto 0 auto;
+}

@@ -1,0 +1,166 @@
+/* Popup.css */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5); /* 반투명한 오버레이 배경 */
+  }
+
+  .popup_back {
+    text-align: left;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 145%;
+    color: #949494;
+    justify-self: start;
+    margin-left: 3%;
+  }
+
+  .quizpopup {
+    display: grid;
+    grid-template-rows: 1fr 0.3fr 1fr 3.8fr 0.5fr 7fr 2.5fr;
+    justify-items: center;
+    align-items: center;
+    width: 85%;
+    aspect-ratio: 1 / 1.6;
+    background: #fff; /* 팝업 배경색 */
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 145%;
+    padding: 3%;
+    margin: auto;
+  }
+
+  .quiz_number_style{
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 145%;
+    /* or 20px */
+    /* leading-trim and text-edge are draft CSS properties.
+    
+    Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+    */
+    
+    text-align: center;
+    letter-spacing: -0.5px;
+    color: #7E7E7E;
+  }
+
+  .quiz_container{
+    display: grid;
+    grid-template-rows: 10fr 1fr;
+    width: 89%;
+    aspect-ratio: 2.4 / 1;
+    background: #E6F3FF;
+    border-radius: 10px;
+    text-align: center;
+    padding: 2.5%;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 145%;
+    align-items: center;
+    /* or 26px */
+    /* leading-trim and text-edge are draft CSS properties.
+    
+    Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+    */
+    letter-spacing: -0.5px;
+    /* main */
+    color: #37A0FF;
+  }
+
+  .answer_container{
+    width: 95%;
+    aspect-ratio: 2.265 / 1;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    
+  }
+
+  .answer_box{
+    display: grid;
+    grid-template-columns: 1fr 5.5fr 1fr;
+    border: 1px solid #E5E5E5;
+    border-radius: 5px;
+    padding: 3% 4%;
+    margin: 1.3% 0;
+    align-items: center;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height, or 125% */
+    letter-spacing: -0.5px;
+    
+    /* font1 */
+    color: #535353;
+  }
+
+  .answer_box input[type="radio"] {
+    /* 라디오 버튼의 크기 조절 */
+    width: 20px;
+    height: 20px;
+    margin-right: 5%; /* 라디오 버튼 간격 설정 */
+    /* 원형 모양을 유지하기 위해 border-radius 설정 */
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+
+
+  .answer_box {
+    position: relative;
+    margin-right: 10px;
+  }
+  
+  .custom-radio {
+    width: 24px; /* 필요에 따라 크기 조절 */
+    height: 24px; /* 필요에 따라 크기 조절 */
+    border-radius: 50%;
+    
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.3s ease; /* 부드러운 전환 효과 추가 */
+  }
+  
+  .custom-radio img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  /* 선택된 라디오 버튼 스타일 */
+  input[type="radio"]:checked + .custom-radio {
+    border-color: none; /* 선택 상태일 때 테두리 색상 변경 */
+  }
+  
+/* QuizPopup.css */
+.answer_box.selected {
+  border: 1px solid #37A0FF;
+  color:#37A0FF;
+}
+
+.quiz_last_button{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+}

@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=8FD36F&height=300&section=header&text=IGLOO&fontSize=90&fontColor=37A0FF)
+![header](https://capsule-render.vercel.app/api?type=waving&color=37A0FF&height=300&section=header&text=IGLOO&fontSize=90&fontColor=FFFFFF)
 
 <h2 align="center">☃️친구와 함께 연말을 정리해보아요!☃️</h2>
 

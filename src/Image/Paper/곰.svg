@@ -1,0 +1,18 @@
+<svg width="73" height="88" viewBox="0 0 73 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.0839844 20C0.0839844 8.95431 9.03829 0 20.084 0H52.084C63.1297 0 72.084 8.95431 72.084 20V83C72.084 85.7614 69.8454 88 67.084 88H5.08398C2.32256 88 0.0839844 85.7614 0.0839844 83V20Z" fill="#9CCEC8"/>
+<circle cx="36.084" cy="9" r="3.5" fill="#9CCEC8"/>
+<circle cx="36.084" cy="9" r="3.5" fill="white"/>
+<circle cx="36.084" cy="9" r="3.5" stroke="white"/>
+<circle cx="10.084" cy="28" r="10" fill="#F5F6F8"/>
+<ellipse cx="62.084" cy="28" rx="10" ry="10" fill="#F5F6F8"/>
+<ellipse cx="12.584" cy="30.5" rx="7.5" ry="7.5" fill="#E4C6BC"/>
+<ellipse cx="59.584" cy="30.5" rx="7.5" ry="7.5" fill="#E4C6BC"/>
+<path d="M72.084 58.5C72.084 81.4198 57.9662 77 38.084 77C18.2017 77 0.0839844 81.4198 0.0839844 58.5C0.0839844 35.5802 16.2017 18 36.084 18C55.9662 18 72.084 35.5802 72.084 58.5Z" fill="#F6F7F9"/>
+<ellipse cx="25.584" cy="49.5" rx="2.5" ry="2.5" fill="black"/>
+<ellipse cx="46.584" cy="49.5" rx="2.5" ry="2.5" fill="black"/>
+<circle cx="54.084" cy="57" r="5" fill="#FFD3CD"/>
+<circle cx="18.084" cy="57" r="5" fill="#FFD3CD"/>
+<path d="M0.0839844 62H72.084V83C72.084 85.7614 69.8454 88 67.084 88H5.08398C2.32256 88 0.0839844 85.7614 0.0839844 83V62Z" fill="#F8F7FC"/>
+<ellipse cx="36.084" cy="64" rx="12" ry="10" fill="#D2DCDD"/>
+<ellipse cx="36.084" cy="56.5" rx="4" ry="2.5" fill="#473B2D"/>
+</svg>

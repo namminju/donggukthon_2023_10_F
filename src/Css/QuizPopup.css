@@ -164,3 +164,7 @@
   justify-items: center;
   align-items: center;
 }
+.popup_back:hover {
+  cursor: pointer; /* 마우스를 갖다 댔을 때 커서 모양을 손가락으로 변경 */
+  /* 다른 스타일 변경도 가능 */
+}

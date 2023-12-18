@@ -1,6 +1,10 @@
 // Popup.js
 import React, { useState, useEffect } from 'react';
 import '../../Css/QuizPopup.css'; // Import the CSS file
+
+import QuitPopup from './quit_popup';
+import QuizEditPopup from './edit_popup';
+
 import '../../Css/Common.css';
 import noImage from '../../Image/Quiz/no.png';
 import yesImage from '../../Image/Quiz/yes.png';
@@ -15,6 +19,8 @@ const QuizPopup = ({ onConfirm }) => {
   const [quizData, setQuizData] = useState({});
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [showQuitPopup, setShowQuitPopup] = useState(false);
+  const [showQuizEditPopup, setShowQuizEditPopup] = useState(false);
 
   useEffect(() => {
     // 팝업이 열릴 때마다 API를 호출하여 데이터를 가져옴
@@ -60,15 +66,20 @@ const QuizPopup = ({ onConfirm }) => {
     setQuizId(prevId => prevId - 1);
     openPopup();
   };
+
   const SavePopup = () => {
-    // 다음 퀴즈로 이동하기 위해 quizId를 증가시키고 팝업을 다시 엽니다.
-      onConfirm();
+    setShowQuizEditPopup(true);
+};
+
+  const Quit_Popup = () => {
+    setShowQuitPopup(true);
   };
+
   return (
     <div className="popup-overlay">
       <div style={{ width: '100%', maxWidth: '420px' }}>
         <div className="quizpopup">
-          <div className='popup_back'>
+          <div className='popup_back' onClick={Quit_Popup}>
             <img
               src={require('../../Image/Quiz/back.png')}
               alt="receipt"
@@ -139,6 +150,27 @@ const QuizPopup = ({ onConfirm }) => {
           </div>
         </div>
       </div>
+      {showQuitPopup && (
+        <QuitPopup // 컴포넌트 이름을 올바르게 수정합니다.
+          message={`이 페이지를 벗어나면 마지막 저장 후\n수정된 내용은 저장되지 않아요!`}
+          onQuit={() => {
+            onConfirm();
+          }}
+          onConfirm_q={() => {
+            setShowQuitPopup(false);
+          }}
+        />
+      )}
+
+      {showQuizEditPopup && (
+        <QuizEditPopup // 컴포넌트 이름을 올바르게 수정합니다.
+          message={`퀴즈 수정이 완료되었어요!`}
+          onConfirm={() => {
+            onConfirm();
+            
+          }}
+        />
+      )}
     </div>
   );
 };

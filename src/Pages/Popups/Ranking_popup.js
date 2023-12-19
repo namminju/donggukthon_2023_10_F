@@ -71,7 +71,7 @@ const RankingPopup = ({ onBack, onConfirm }) => {
             {repeatContent(15)}
             </div>
           </div>
-          <button onClick={onConfirm} className='move_button'>퀴즈 수정하기</button>
+          <button onClick={onConfirm} style={{marginTop:'0'}} className='move_button'>퀴즈 수정하기</button>
         </div>
       </div>
     </div>

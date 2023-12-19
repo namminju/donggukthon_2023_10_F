@@ -6,6 +6,7 @@ import Popup from './Popups/edit_popup.js'; // Import your Popup component
 import RankingPopup from './Popups/Ranking_popup.js';
 import QuizPopup from './Popups/quiz_popup.js';
 import PaperPopup from './Popups/Paper/paper_popup.js';
+import CopyPopup from "./Popups/edit_popup.js";
 
 function My_Igloo() {
   const [isEditing, setIsEditing] = useState(false);

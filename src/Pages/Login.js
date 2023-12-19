@@ -23,7 +23,7 @@ function Login() {
               <button className='google_button'>
                 <img
                 src={require('../Image/Login/google.png')}
-                alt="receipt"
+                alt="login"
                 id='logo'
                 />
                 구글 로그인

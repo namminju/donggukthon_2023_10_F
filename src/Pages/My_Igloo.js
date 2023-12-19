@@ -9,7 +9,7 @@ import PaperPopup from './Popups/Paper/paper_popup.js';
 import CopyPopup from "./Popups/edit_popup.js";
 import API from '../API/axios';
 
-function My_Igloo() {
+function My_Igloo(code ) {
   const [isEditing, setIsEditing] = useState(false);
   const [textValue, setTextValue] = useState('');
   const [maxTextLength, setMaxTextLength] = useState(100);
@@ -126,12 +126,14 @@ function My_Igloo() {
     try{
       const response=await API.get(endpoint,{
         headers:{
-          Authorization: `Bearer ${access_token}`
+          
+          Authorization: `Bearer ${access_token}`,
+          code : {code}
         }
       });
       setDatas(response.data);
     } catch (error) {
-      datas.nickname='';
+      datas.data.nickname='';
       console.error("API 오류", error);
     }
   };
@@ -167,7 +169,7 @@ function My_Igloo() {
         </div>
       ) : (
         <div className='title'>
-          {datas.nickname}의 이글루
+          {datas.data.nickname}의 이글루
         </div>
       )}
       <button

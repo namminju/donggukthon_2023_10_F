@@ -41,7 +41,16 @@
     padding: 3%;
     margin: auto;
   }
+  .font_normal{
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 145%;
+    letter-spacing: -0.5px;
 
+    color: #37A0FF;
+  }
   .quiz_number_style{
     font-family: 'Pretendard';
     font-style: normal;
@@ -167,4 +176,17 @@
 .popup_back:hover {
   cursor: pointer; /* 마우스를 갖다 댔을 때 커서 모양을 손가락으로 변경 */
   /* 다른 스타일 변경도 가능 */
+}
+
+
+.font_answer_edit{
+  font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.5px;
+    color: #535353;
+
+
 }

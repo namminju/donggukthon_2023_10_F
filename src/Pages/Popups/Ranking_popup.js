@@ -1,24 +1,49 @@
 // Popup.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../Css/RankingPopup.css'; // Import the CSS file
 import '../../Css/Common.css';
+import axios from 'axios';
+
 const RankingPopup = ({ onBack, onConfirm }) => {
-  const repeatContent = (count) => {
+  const [Rankings, setRankings] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+   
+    try { 
+      const response = await axios.get('./rank.json');
+      
+      
+      setRankings (response.data);
+      console.log(Rankings.rank);
+    } catch (error) {
+      console.error('API 오류', error);
+    
+    }
+  };
+
+
+
+  
+  const repeatContent = () => {
     const repeatedContent = [];
   
     repeatedContent.push(
-      <React.Fragment>
+      <React.Fragment key="top">
         <div className='top'>
-          {Array.from({ length: 3 }, (_, i) => (
-            <React.Fragment key={i} className="top-ranking">
+          {Rankings.slice(0, 3).map((item, index) => (
+            <React.Fragment key={index}>
               <div className='ranking_content_container'>
                 <img
-                  src={require(`../../Image/Ranking/ranking${i + 1}.png`)}
+                  src={require(`../../Image/Ranking/ranking${index + 1}.png`)}
                   alt="receipt"
                   style={{ width: '50%', justifySelf: 'center' }}
                 />
-                <div>홍길동</div>
-                <div>80</div>
+                <div>{item.nickname}</div>
+                <div>{item.score}</div>
               </div>
             </React.Fragment>
           ))}
@@ -26,15 +51,15 @@ const RankingPopup = ({ onBack, onConfirm }) => {
       </React.Fragment>
     );
   
-    for (let i = 3; i < count; i++) {
+    for (let i = 3; i < Rankings.length; i++) {
       let rankContent;
   
       rankContent = (
         <React.Fragment key={i}>
           <div className='ranking_content_container'>
             <div>{i + 1}위</div>
-            <div>홍길동</div>
-            <div>80</div>
+            <div>{Rankings[i].nickname}</div>
+            <div>{Rankings[i].score}</div>
           </div>
         </React.Fragment>
       );
@@ -44,6 +69,7 @@ const RankingPopup = ({ onBack, onConfirm }) => {
   
     return repeatedContent;
   };
+  
   
 
 

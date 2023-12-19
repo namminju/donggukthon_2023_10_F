@@ -2,7 +2,7 @@
 import React from 'react';
 import '../../Css/RankingPopup.css'; // Import the CSS file
 import '../../Css/Common.css';
-const RankingPopup = ({ onConfirm }) => {
+const RankingPopup = ({ onBack, onConfirm }) => {
   const repeatContent = (count) => {
     const repeatedContent = [];
   
@@ -51,14 +51,16 @@ const RankingPopup = ({ onConfirm }) => {
       <div className="popup-overlay">
       <div style={{ width:'100%',maxWidth: '420px' }}>
         <div className="rankingpopup">
-          <div className='popup_back'>
+          <div className='popup_back' onClick={onBack}>
             <img
               src={require('../../Image/Ranking/back.png')}
               alt="receipt"
               style={{ width: '5%' }}
             />
             &emsp;이글루로 돌아가기
-          </div><div></div>
+          </div>
+          
+          <div></div>
           <div className='ranking_title_container'>
               <div className='ranking_title'>순위</div>
               <div className='ranking_title'>이름</div>

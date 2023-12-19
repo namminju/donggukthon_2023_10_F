@@ -1,14 +1,25 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../Css/Start.css'; // 스타일 파일 경로
 import '../Css/Common.css'; // 스타일 파일 경로
 
 function Start() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // 10초 후에 '/your-next-page'로 이동
+    const timeoutId = setTimeout(() => {
+      navigate('/login');
+    }, 5000); // 10000 밀리초 = 10초
+
+    // 컴포넌트가 언마운트되면 타이머를 클리어하여 메모리 누수를 방지
+    return () => clearTimeout(timeoutId);
+  }, [navigate]);
+
   return (
     <div className='full_container'>
       <div className='intro'>
-        <div style={{display:'grid', gridTemplateRows:' 2fr 0.5fr 0.5fr 0.5fr 2fr'}}>
-        <div></div>
+        <div>
         <div className='igloo_intro'>
           <div>이글루 소개</div>
           <div>둘줄 정도로다가 짜란</div>
@@ -44,23 +55,8 @@ function Start() {
             style={{ width: '90%', height: 'auto' }}
           />
         </div>
-        <div></div>
-        <div>
-          <Link to='/myigloo'  style={{display:'flex', justifyContent:'center'}}>
-              <button className='google_button_80'>
-                <img
-                src={require('../Image/Login/google.png')}
-                alt="receipt"
-                id='logo'
-                />
-                구글로 시작하기
-              </button>
-              </Link>
-              </div>
       </div>
-      
       </div>
-
     </div>
   );
 }

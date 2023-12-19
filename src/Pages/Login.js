@@ -11,23 +11,21 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const userData = {
-      username: id,
-      password: password
-    };
 
     try {
+      const userData = { id, password }; // 객체 구조 분해 활용
       const response = await API.post('/auth/login', userData);
 
       if (response.status === 200) {
         console.log('로그인 성공:', response.data);
-        localStorage.setItem('access', response.data.access);
-        localStorage.setItem('refresh', response.data.refresh);
+        const { access, refresh } = response.data; // 객체 구조 분해 활용
+        localStorage.setItem('access', access);
+        localStorage.setItem('refresh', refresh);
         alert('로그인에 성공했습니다.');
         navigate('/myigloo');
       }
     } catch (error) {
-      console.log(error);
+      console.error('로그인 실패:', error);
       alert('로그인에 실패하였습니다. 다시 시도해주세요.');
     }
   };
@@ -36,26 +34,25 @@ function Login() {
     <div className='full_container'>
       <div className='background_f'>
         <div className='window'>
-            <div className='logo'>
-              <img
+          <div className='logo'>
+            <img
               src={require('../Image/Login/Title.png')}
               alt="IGLOO"
-              style={{ width: '80%'}}
-              />
+              style={{ width: '80%' }}
+            />
+          </div>
+          <form className='input_container' onSubmit={handleLogin}>
+            <input type='text' name='id' placeholder='아이디를 입력해주세요' value={id} onChange={(e) => setId(e.target.value)} required />
+            <input type='password' name='password' placeholder='비밀번호를 입력해주세요' value={password} onChange={(e) => setPassword(e.target.value)} required />
+
+            <button type="submit" className='google_button'>
+              로그인
+            </button>
+
+            <div className='find_last_login_do_it'>
+              <Link to='/signup' style={{ justifySelf: 'end' }}>회원가입</Link> | <Link to='/forgotpassword' style={{ justifySelf: 'start' }}>비밀번호 찾기</Link>
             </div>
-            <form className='input_container' onSubmit={handleLogin}>
-              <input type='text' name='id' placeholder='아이디를 입력해주세요' required></input>
-              <input type='password'name='password' placeholder='비밀번호를 입력해주세요' required></input>
-
-        
-              <button type="submit" className='google_button'>
-                로그인
-              </button>
-
-              <div className='find_last_login_do_it'>
-                <div style={{justifySelf:'end'}}>회원가입</div>  | <div style={{justifySelf:'start'}}>비밀번호 찾기</div>
-              </div>
-            </form>
+          </form>
         </div>
       </div>
     </div>

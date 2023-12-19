@@ -10,7 +10,7 @@ import SnowmanTag from "../../../Image/Paper/눈사람.svg";
 import DeerTag from "../../../Image/Paper/사슴.svg";
 import RabbitTag from "../../../Image/Paper/토끼.svg";
 import PenguinTag from "../../../Image/Paper/펭귄.svg";
-import ShowPaper from "../../../Pages/Popups/Paper/show_paper.js";
+import ShowPaper from "./show_paper.js";
 
 const PaperPopup = ({ onConfirm }) => {
   

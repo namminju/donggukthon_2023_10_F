@@ -5,6 +5,7 @@ import "../Css/Common.css"; // 스타일 파일 경로
 import Popup from "./Popups/edit_popup.js"; // Import your Popup component
 import RankingPopup from "./Popups/Ranking_popup.js";
 import QuizPopup from "./Popups/quiz_popup.js";
+import PaperPopup from "./Popups/Paper/paper_popup.js";
 import CopyPopup from "./Popups/edit_popup.js";
 
 function My_Igloo() {
@@ -46,6 +47,12 @@ function My_Igloo() {
     // Save changes or perform other actions
     setShowRankingPopup(false); // 팝업 닫기
   };
+
+  const handlePaperPopupClick = () => {
+    // Save changes or perform other actions
+    setShowPaperPopup(true); // 팝업 닫기
+  };
+
   const handleTextAreaChange = (event) => {
     const newText = event.target.value;
     const newlineCount = (newText.match(/\n/g) || []).length;
@@ -180,7 +187,9 @@ function My_Igloo() {
             <button className="button" onClick={handleRankingButtonClick}>
               퀴즈 바로가기
             </button>
-            <button className="button">롤링페이퍼</button>
+            <button className="button" onClick={handlePaperPopupClick}>
+              롤링페이퍼
+            </button>
           </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ input::placeholder {
 
 .google_button{
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr ;
+    grid-template-columns: 1fr;
     justify-items: center;
     align-items: center;
 
@@ -82,7 +82,7 @@ input::placeholder {
 
     /* identical to box height, or 150% */
     letter-spacing: -0.003em;
-    background-color: #FFFFFF;
+    background-color: #37A0FF;
 
     /* 글씨 */
     font-family: 'Pretendard';
@@ -90,7 +90,7 @@ input::placeholder {
     font-weight: 600;
     font-size: 16px;
     line-height: 24px;
-    color: #37A0FF;
+    color: #FFFFFF;
 
     /* 테두리 */
     border: 1px solid #37A0FF;
@@ -101,6 +101,24 @@ input::placeholder {
     aspect-ratio: 1 / 1;
 }
 .google_button:hover{
-    background-color: #f1f1f1;
+    background-color: #2594fc;
 
+}
+
+.find_last_login_do_it{
+    display: grid;
+    text-align: center;
+    grid-template-columns: 5fr 0.1fr 6fr ;
+    justify-items: center;
+    gap:5%;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: #7E7E7E;
+    line-height: 145%;
+    letter-spacing: -0.5px;
+
+    margin-top: 5%;
 }

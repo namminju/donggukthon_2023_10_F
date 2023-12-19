@@ -12,7 +12,7 @@ import PenguinTag from "../../../Image/Paper/펭귄.svg";
 import ShowPaper from "./show_paper.js";
 import CheckDate from "./check_date.js";
 
-const PaperPopup = ({ onConfirm }) => {
+const PaperPopup = ({ owner, onConfirm }) => {
   const [selected, setSelected] = useState(null);
   const [showPaper, setShowPaper] = useState(false);
   const [listData, setListData] = useState([]);
@@ -46,6 +46,20 @@ const PaperPopup = ({ onConfirm }) => {
       setShowPaper(true);
     }
   };
+
+  //owner 체크
+  let changePaper;
+
+  if (owner == true) {
+    changePaper = "열람하기";
+  
+  } else {
+    changePaper = "롤링페이퍼 작성하기";
+  }
+  const checkOwner = (owner) => {
+
+  };
+
   const handlePaperTagClick = (tagIndex) => {
     if (selected !== null) {
       setSelected(null);
@@ -119,7 +133,7 @@ const PaperPopup = ({ onConfirm }) => {
     <div className="popup-overlay">
       <div style={{ width: "100%", maxWidth: "420px" }}>
         <div className="paper_popup">
-          <div className="popup_back">
+          <div className="popup_back" onClick={onConfirm}>
             <img
               src={require("../../../Image/Ranking/back.png")}
               alt="receipt"
@@ -130,8 +144,15 @@ const PaperPopup = ({ onConfirm }) => {
 
           <div className="paper_container">{renderImages()}</div>
 
-          <button onClick={handleShowPaperClick} className="move_button">
-            열람하기
+          <button
+            onClick={() => {
+              checkOwner()
+              handleShowPaperClick();
+              
+            }}
+            className="move_button"
+          >
+            {changePaper}
           </button>
         </div>
 

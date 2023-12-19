@@ -10,19 +10,21 @@ import DeerTag from "../../../Image/Paper/사슴.svg";
 import RabbitTag from "../../../Image/Paper/토끼.svg";
 import PenguinTag from "../../../Image/Paper/펭귄.svg";
 import ShowPaper from "./show_paper.js";
+import CheckDate from "./check_date.js";
 
 const PaperPopup = ({ onConfirm }) => {
   const [selected, setSelected] = useState(null);
   const [showPaper, setShowPaper] = useState(false);
-  const [paperData, setPaperData] = useState([]);
+  const [listData, setListData] = useState([]);
+  const [checkDate, setCheckDate] = useState(true);
+  const [selectedDesign, setSelectedDesign] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/paper_list.json");
-        setPaperData(response.data.data);
         // 여기에서 추가적인 동작 수행 가능
-        console.log(response.data.data);
+        setListData(response.data.data);
       } catch (error) {
         console.error("Error fetching rolling paper data:", error);
       }
@@ -30,85 +32,89 @@ const PaperPopup = ({ onConfirm }) => {
     fetchData();
   }, []);
 
-  // 빈 배열을 두어 한 번만 호출되도록 설정
+  //날짜체크
   const handleShowPaperClick = () => {
-    setShowPaper(true);
-  };
+    const currentDate = new Date();
+    // Specify the allowed date (2024-01-01)
+    const allowedDate = new Date("2023-01-01");
 
+    if (currentDate < allowedDate) {
+      // If the current date is before 2024-01-01, prevent opening
+      setCheckDate(false);
+    } else {
+      setCheckDate(true);
+      setShowPaper(true);
+    }
+  };
   const handlePaperTagClick = (tagIndex) => {
     if (selected !== null) {
       setSelected(null);
     }
     setSelected(tagIndex);
+    setSelectedDesign(listData[tagIndex].design);
   };
-
   const renderImages = () => {
-    if (paperData) {
-      console.log(paperData);
-      return paperData.map((rollingPaper, index) => {
-        const isSelected = selected === index;
-        const designValue = rollingPaper.design;
-        console.log(paperData);
-        return (
-          <div
-            className={`paper_tag ${isSelected ? "selected" : ""}`}
-            key={index}
-          >
-            {/* 이미지를 동적으로 선택 */}
-            {designValue === 1 && (
-              <img
-                src={PenguinTag}
-                className="papertag"
-                onClick={() => handlePaperTagClick(index)}
-                alt={`Penguin ${index}`}
-              />
-            )}
-            {designValue === 2 && (
-              <img
-                src={BearTag}
-                className="papertag"
-                onClick={() => handlePaperTagClick(index)}
-                alt={`Bear ${index}`}
-              />
-            )}
-            {designValue === 3 && (
-              <img
-                src={RabbitTag}
-                className="papertag"
-                onClick={() => handlePaperTagClick(index)}
-                alt={`Rabbit ${index}`}
-              />
-            )}
-            {designValue === 4 && (
-              <img
-                src={DeerTag}
-                className="papertag"
-                onClick={() => handlePaperTagClick(index)}
-                alt={`Deer ${index}`}
-              />
-            )}
-            {designValue === 5 && (
-              <img
-                src={SnowmanTag}
-                className="papertag"
-                onClick={() => handlePaperTagClick(index)}
-                alt={`Snowman ${index}`}
-              />
-            )}
-            {designValue === 6 && (
-              <img
-                src={RaccoonTag}
-                className="papertag"
-                onClick={() => handlePaperTagClick(index)}
-                alt={`Raccoon ${index}`}
-              />
-            )}
-          </div>
-        );
-      });
-    }
+    return listData.map((item, index) => {
+      const isSelected = selected === index;
+      const designValue = item.design; // Access 'design' property correctly
+      return (
+        <div
+          className={`paper_tag ${isSelected ? "selected" : ""}`}
+          key={index}
+        >
+          {/* 이미지를 동적으로 선택 */}
+          {designValue === 1 && (
+            <img
+              src={PenguinTag}
+              className="papertag"
+              onClick={() => handlePaperTagClick(index)}
+              alt={`Penguin ${index}`}
+            />
+          )}
+          {designValue === 2 && (
+            <img
+              src={BearTag}
+              className="papertag"
+              onClick={() => handlePaperTagClick(index)}
+              alt={`Bear ${index}`}
+            />
+          )}
+          {designValue === 3 && (
+            <img
+              src={RabbitTag}
+              className="papertag"
+              onClick={() => handlePaperTagClick(index)}
+              alt={`Rabbit ${index}`}
+            />
+          )}
+          {designValue === 4 && (
+            <img
+              src={DeerTag}
+              className="papertag"
+              onClick={() => handlePaperTagClick(index)}
+              alt={`Deer ${index}`}
+            />
+          )}
+          {designValue === 5 && (
+            <img
+              src={SnowmanTag}
+              className="papertag"
+              onClick={() => handlePaperTagClick(index)}
+              alt={`Snowman ${index}`}
+            />
+          )}
+          {designValue === 6 && (
+            <img
+              src={RaccoonTag}
+              className="papertag"
+              onClick={() => handlePaperTagClick(index)}
+              alt={`Raccoon ${index}`}
+            />
+          )}
+        </div>
+      );
+    });
   };
-
   return (
     <div className="popup-overlay">
       <div style={{ width: "100%", maxWidth: "420px" }}>
@@ -127,15 +133,20 @@ const PaperPopup = ({ onConfirm }) => {
           <button onClick={handleShowPaperClick} className="move_button">
             열람하기
           </button>
-
-          {showPaper && (
-            <ShowPaper
-              onConfirm={() => {
-                setShowPaper(false);
-              }}
-            />
-          )}
         </div>
+
+        {!checkDate && (
+          <CheckDate
+            message="내가 받은 롤링페이퍼는 2024년 1월 1일부터 확인할 수 있어요!"
+            onConfirm={() => setCheckDate(true)}
+          />
+        )}
+        {showPaper && (
+          <ShowPaper
+            design={selectedDesign}
+            onConfirm={() => setShowPaper(false)}
+          />
+        )}
       </div>
     </div>
   );

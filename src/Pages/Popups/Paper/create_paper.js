@@ -7,13 +7,16 @@ import SnowmanTag from "../../../Image/Paper/눈사람.svg";
 import DeerTag from "../../../Image/Paper/사슴.svg";
 import RabbitTag from "../../../Image/Paper/토끼.svg";
 import PenguinTag from "../../../Image/Paper/펭귄.svg";
-import ShowPaper from "../../../Pages/Popups/Paper/show_paper.js";
+import WritePaper from "../../../Pages/Popups/Paper/write_paper.js";
 
 const CreatePaper = ({ onConfirm }) => {
   const [showPaperPopup, setShowPaperPopup] = useState(false);
 
   const handleShowPaperClick = () => {
     setShowPaperPopup(true);
+  };
+  const handleSelectDesign = (design) => {
+    return design;
   };
   return (
     <div className="popup-overlay">
@@ -31,23 +34,23 @@ const CreatePaper = ({ onConfirm }) => {
           <div class="text">롤링페이퍼의 디자인을 선택해주세요!</div>
 
           <div class="paper_container">
-            <div class="paper_tag" id="bear" onclick="">
+            <div class="paper_tag" onclick={handleSelectDesign(1)}>
+              <img class="paper" src={PenguinTag} />
+            </div>
+            <div class="paper_tag" onclick={handleSelectDesign(2)}>
               <img class="paper" src={BearTag} />
             </div>
-            <div class="paper_tag" id="raccoon">
-              <img class="paper" src={RaccoonTag} />
-            </div>
-            <div class="paper_tag" id="snowman">
-              <img class="paper" src={SnowmanTag} />
-            </div>
-            <div class="paper_tag" id="deer">
-              <img class="paper" src={DeerTag} />
-            </div>
-            <div class="paper_tag" id="rabbit">
+            <div class="paper_tag" onclick={handleSelectDesign(3)}>
               <img class="paper" src={RabbitTag} />
             </div>
-            <div class="paper_tag" id="penguin">
-              <img class="paper" src={PenguinTag} />
+            <div class="paper_tag" onclick={handleSelectDesign(4)}>
+              <img class="paper" src={DeerTag} />
+            </div>
+            <div class="paper_tag" onclick={handleSelectDesign(5)}>
+              <img class="paper" src={SnowmanTag} />
+            </div>
+            <div class="paper_tag" onclick={handleSelectDesign(6)}>
+              <img class="paper" src={RaccoonTag} />
             </div>
           </div>
 
@@ -57,7 +60,8 @@ const CreatePaper = ({ onConfirm }) => {
         </div>
       </div>
       {showPaperPopup && (
-        <ShowPaper
+        <WritePaper
+          design={handleSelectDesign()}
           onConfirm={() => {
             setShowPaperPopup(false);
           }}

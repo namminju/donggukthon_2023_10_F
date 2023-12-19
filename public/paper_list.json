@@ -1,29 +1,24 @@
-[
-  {
-    "code": 200,
-    "message": "OK",
-    "data": [
-      {
-        "rollingPaper": {
-          "paperId": 1,
-          "design": 1,
-          "creator": 4
-        }
-      },
-      {
-        "rollingPaper": {
-          "paperId": 2,
-          "design": 2,
-          "creator": 3
-        }
-      },
-      {
-        "rollingPaper": {
-          "paperId": 3,
-          "design": 5,
-          "creator": 1
-        }
+{
+  "code": 200,
+  "message": "OK",
+  "data": [
+    {
+      "design": 4,
+      "paperId": 2,
+      "writer": {
+        "userId": 1,
+        "korName": "응관",
+        "nickname": "닉넴"
       }
-    ]
-  }
-]
+    },
+    {
+      "design": 2,
+      "paperId": 3,
+      "writer": {
+        "userId": 2,
+        "korName": "응관",
+        "nickname": "닉넴"
+      }
+    }
+  ]
+}

@@ -20,15 +20,14 @@ function Login() {
               <input type='text' name='id' placeholder='아이디를 입력해주세요' required></input>
               <input type='password'name='password' placeholder='비밀번호를 입력해주세요' required></input>
               <Link to='/myigloo'>
+        
               <button className='google_button'>
-                <img
-                src={require('../Image/Login/google.png')}
-                alt="login"
-                id='logo'
-                />
-                구글 로그인
+                로그인
               </button>
               </Link>
+              <div className='find_last_login_do_it'>
+                <div style={{justifySelf:'end'}}>회원가입</div>  | <div style={{justifySelf:'start'}}>비밀번호 찾기</div>
+              </div>
             </div>
         </div>
       </div>

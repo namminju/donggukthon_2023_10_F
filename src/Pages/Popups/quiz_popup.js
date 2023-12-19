@@ -21,14 +21,18 @@ const QuizPopup = ({ onConfirm }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showQuitPopup, setShowQuitPopup] = useState(false);
   const [showQuizEditPopup, setShowQuizEditPopup] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false); // 단계 1
 
   useEffect(() => {
     // 팝업이 열릴 때마다 API를 호출하여 데이터를 가져옴
     const fetchData = async () => {
       try {
         const response = await axios.get('./quiz.json');
-        const matchingquizData = response.data.find(quiz => quiz.id === Number(quizId));
 
+        const quizData = response.data.data;
+        console.log(response.data.data);
+        const matchingquizData = quizData.find(quiz => quiz.quizId === Number(quizId));
+        console.log(matchingquizData);
         if (matchingquizData) {
           setQuizData(matchingquizData);
         } else {
@@ -45,6 +49,10 @@ const QuizPopup = ({ onConfirm }) => {
 
   const handleRadioChange = (answer) => {
     setSelectedAnswer(answer);
+  };
+
+  const toggleEditMode = () => {
+    setIsEditMode(!isEditMode); // 단계 2
   };
 
   const openPopup = () => {

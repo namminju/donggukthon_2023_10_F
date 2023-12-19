@@ -1,63 +1,116 @@
-[
-    {
-      "id": 1,
-      "question": "What is the capital of France?",
-      "options": ["Berlin", "Madrid", "Paris", "Rome"],
-      "correct_answer": "Paris"
-    },
-    {
-      "id": 2, 
-      "question": "Which planet is known as the Red Planet?",
-      "options": ["Venus", "Mars", "Jupiter", "Saturn"],
-      "correct_answer": "Mars"
-    },
-    {
-      "id": 3, 
-      "question": "Who wrote 'Romeo and Juliet'?",
-      "options": ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
-      "correct_answer": "William Shakespeare"
-    },
-    {
-      "id": 4,
-      "question": "What is the capital of France?",
-      "options": ["Berlin", "Madrid", "Paris", "Rome"],
-      "correct_answer": "Paris"
-    },
-    {
-      "id": 5, 
-      "question": "Which planet is known as the Red Planet?",
-      "options": ["Venus", "Mars", "Jupiter", "Saturn"],
-      "correct_answer": "Mars"
-    },
-    {
-      "id": 6, 
-      "question": "Who wrote 'Romeo and Juliet'?",
-      "options": ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
-      "correct_answer": "William Shakespeare"
-    },
-    {
-      "id": 7,
-      "question": "What is the capital of France?",
-      "options": ["Berlin", "Madrid", "Paris", "Rome"],
-      "correct_answer": "Paris"
-    },
-    {
-      "id": 8, 
-      "question": "Which planet is known as the Red Planet?",
-      "options": ["Venus", "Mars", "Jupiter", "Saturn"],
-      "correct_answer": "Mars"
-    },
-    {
-      "id": 9, 
-      "question": "Who wrote 'Romeo and Juliet'?",
-      "options": ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
-      "correct_answer": "William Shakespeare"
-    },
-    {
-      "id": 10, 
-      "question": "Who wrote 'Romeo and Juliet'?",
-      "options": ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
-      "correct_answer": "William Shakespeare"
-    }
-		
-]
+{
+  "code": 200,
+  "message": "OK",
+  "data": [
+      {
+          "quizId": 1,
+          "question": "What is the capital of France?",
+          "options": [
+              "Berlin",
+              "Madrid",
+              "Paris",
+              "Rome"
+          ],
+          "correctAnswer": "Paris"
+      },
+      {
+          "quizId": 2,
+          "question": "Which planet is known as the Red Planet?",
+          "options": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Saturn"
+          ],
+          "correctAnswer": "Mars"
+      },
+      {
+          "quizId": 3,
+          "question": "Who wrote 'Romeo and Juliet'?",
+          "options": [
+              "Charles Dickens",
+              "William Shakespeare",
+              "Jane Austen",
+              "Mark Twain"
+          ],
+          "correctAnswer": "William Shakespeare"
+      },
+      {
+          "quizId": 4,
+          "question": "Which planet is known as the Red Planet?",
+          "options": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Saturn"
+          ],
+          "correctAnswer": "Mars"
+      },
+      {
+          "quizId": 5,
+          "question": "Who wrote 'Romeo and Juliet'?",
+          "options": [
+              "Charles Dickens",
+              "William Shakespeare",
+              "Jane Austen",
+              "Mark Twain"
+          ],
+          "correctAnswer": "William Shakespeare"
+      },
+      {
+          "quizId": 6,
+          "question": "Which planet is known as the Red Planet?",
+          "options": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Saturn"
+          ],
+          "correctAnswer": "Mars"
+      },
+      {
+          "quizId": 7,
+          "question": "Who wrote 'Romeo and Juliet'?",
+          "options": [
+              "Charles Dickens",
+              "William Shakespeare",
+              "Jane Austen",
+              "Mark Twain"
+          ],
+          "correctAnswer": "William Shakespeare"
+      },
+      {
+          "quizId": 8,
+          "question": "Which planet is known as the Red Planet?",
+          "options": [
+              "Venus",
+              "Mars",
+              "Jupiter",
+              "Saturn"
+          ],
+          "correctAnswer": "Mars"
+      },
+      {
+          "quizId": 9,
+          "question": "Who wrote 'Romeo and Juliet'?",
+          "options": [
+              "Charles Dickens",
+              "William Shakespeare",
+              "Jane Austen",
+              "Mark Twain"
+          ],
+          "correctAnswer": "William Shakespeare"
+      },
+      {
+          "quizId": 10,
+          "question": "Who wrote 'Romeo and Juliet'?",
+          "options": [
+              "Charles Dickens",
+              "William Shakespeare",
+              "Jane Austen",
+              "Mark Twain"
+          ],
+          "correctAnswer": "William Shakespeare"
+      }
+  ]
+}

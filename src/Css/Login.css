@@ -122,3 +122,33 @@ input::placeholder {
 
     margin-top: 5%;
 }
+label{
+    margin-top: 10%;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 145%;
+    letter-spacing: -0.5px;
+    color: #535353;
+}
+.ip{
+    width: 60%;
+    background: #F2F2F2;
+    border-radius: 5px;
+    margin-top: 3%;
+    /* Inside auto layout */
+
+
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 145%;
+    border:none;
+    letter-spacing: -0.5px;
+    
+    /* font2 */
+    color: #7E7E7E;
+
+}

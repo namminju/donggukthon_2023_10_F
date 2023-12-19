@@ -119,7 +119,7 @@ const PaperPopup = ({ onConfirm }) => {
     <div className="popup-overlay">
       <div style={{ width: "100%", maxWidth: "420px" }}>
         <div className="paper_popup">
-          <div className="popup_back">
+          <div className="popup_back" onClick={onConfirm}>
             <img
               src={require("../../../Image/Ranking/back.png")}
               alt="receipt"

@@ -7,8 +7,14 @@ import SnowmanTag from "../../../Image/Paper/눈사람.svg";
 import DeerTag from "../../../Image/Paper/사슴.svg";
 import RabbitTag from "../../../Image/Paper/토끼.svg";
 import PenguinTag from "../../../Image/Paper/펭귄.svg";
+import ShowPaper from "../../../Pages/Popups/Paper/show_paper.js";
 
 const CreatePaper = ({ onConfirm }) => {
+  const [showPaperPopup, setShowPaperPopup] = useState(false);
+
+  const handleShowPaperClick = () => {
+    setShowPaperPopup(true);
+  };
   return (
     <div className="popup-overlay">
       <div style={{ width: "100%", maxWidth: "420px" }}>
@@ -45,23 +51,20 @@ const CreatePaper = ({ onConfirm }) => {
             </div>
           </div>
 
-          <button onClick={onConfirm} className="move_button">
+          <button onClick={handleShowPaperClick} className="move_button">
             다음
           </button>
         </div>
       </div>
+      {showPaperPopup && (
+        <ShowPaper
+          onConfirm={() => {
+            setShowPaperPopup(false);
+          }}
+        />
+      )}
     </div>
   );
 };
-const Tag = ({ tagId, selected, onClick }) => (
-  <div
-    className={`paper_tag ${selected ? "selected" : ""}`}
-    id={tagId}
-    onClick={() => onClick(tagId)}
-  >
-    {/* 각 태그의 이미지를 동적으로 로드하도록 수정 필요 */}
-    <img className="paper" src={BearTag} alt={tagId} />
-  </div>
-);
 
 export default CreatePaper;

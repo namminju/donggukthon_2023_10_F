@@ -5,7 +5,7 @@
     background-size: cover; /* Adjust as needed */
     background-position: center; /* Adjust as needed */
     display: grid;
-    grid-template-rows: 0.1fr 1fr 1fr 0.2fr;
+    grid-template-rows:  1fr 4.6fr 0.4fr;
     justify-items: center;
     align-items: end;
 }
@@ -37,8 +37,20 @@
     /* identical to box height, or 83% */
     text-align: center;
     letter-spacing: -0.5px;
-    
+    align-items: center;
+    justify-items: center;
     color: #FFFFFF;
+}
+
+.input_font_style{
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 20px;
+    /* identical to box height, or 83% */
+    text-align: center;
+    letter-spacing: -0.5px;
 }
 
 .logo{

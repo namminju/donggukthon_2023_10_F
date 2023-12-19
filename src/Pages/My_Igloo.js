@@ -15,15 +15,20 @@ function My_Igloo() {
   const [showRankingPopup, setShowRankingPopup] = useState(false);
   const [showQuizPopup, setShowQuizPopup] = useState(false);
   const [showCopyPopup, setShowCopyPopup] = useState(false);
+
+  const [editedTitle, setEditedTitle] = useState("홍길동");
   const [showPaperPopup, setShowPaperPopup] = useState(false);
   const handleEditClick = () => {
+    // 수정 중일 때와 수정 중이 아닐 때의 토글 로직
     if (isEditing) {
       setShowEditPopup(true);
     } else {
       setIsEditing(!isEditing);
     }
-  };
 
+    // TODO: 여기에서 editedTitle 상태를 활용하여 실제로 수정된 내용을 처리할 수 있음
+    console.log("수정된 내용:", editedTitle);
+  };
   const handleRankingButtonClick = () => {
     setShowRankingPopup(true);
   };
@@ -106,9 +111,11 @@ function My_Igloo() {
   };
 
   return (
-    <div className="full_container">
-      <div className="background">
-        <div></div>
+
+    <div className='full_container'>
+      <div className='background'>
+        
+
         <div>
           <div className="center_container">
             <div className="title_container">
@@ -119,7 +126,69 @@ function My_Igloo() {
                   className="logo"
                 />
               </div>
-              <div className="title">홍길동의 이글루</div>
+
+
+              {isEditing ? (
+        <div className='title'>
+          <input
+            type='text'
+            name='id'
+            className='input_font_style'
+            style={{width:'35%', textAlign:'center', aspectRatio:'1.5/1'}}
+            placeholder='변경할 이글루의 이름을 입력하세요!'
+            value={editedTitle}
+            onChange={(e) => setEditedTitle(e.target.value)}
+            required
+          />의 이글루
+        </div>
+      ) : (
+        <div className='title'>
+          {editedTitle}의 이글루
+        </div>
+      )}
+      <button
+        style={{ background: 'transparent', border: 'none' }}
+        onClick={handleEditClick}
+      >
+        <img
+          src={require('../Image/MyIgloo/edit2.png')}
+          alt="edit"
+          className='edit'
+        />
+      </button>
+
+
+
+
+              
+            </div>
+          </div>
+
+          <div className='center' >
+            <div className='inline' onClick={CopyPopup} style={{ cursor: 'pointer' }}>
+            <div ref={textAreaRef} style={{ textDecoration: 'underline' }}>
+              {textToCopy}
+            </div>
+            &nbsp;
+            <img
+              src={require('../Image/MyIgloo/Vector.png')}
+              alt="receipt"
+              className='vector'
+            />
+           </div>
+          </div>
+
+          <div className='center_container'>
+            
+          </div>
+        </div>
+
+
+
+
+        <div className='center_container'>
+          <div className='last_button_container'>
+            <button className='button' onClick={handleRankingButtonClick}>
               <button
                 style={{ background: "transparent", border: "none" }}
                 onClick={handleEditClick}
@@ -215,7 +284,7 @@ function My_Igloo() {
         </div>
         <div className="center_container">
           <div className="last_button_container">
-            <button className="button" onClick={handleRankingButtonClick}>
+            <button className="button" onClick={handleRankingButtonClick}>ㅛㅛ
               퀴즈 바로가기
             </button>
             <button className="button" onClick={handlePaperButtonClick}>
@@ -228,13 +297,19 @@ function My_Igloo() {
       {/* Render the Popup component conditionally */}
       {showEditPopup && (
         <Popup
-          message="한줄소개 수정이 완료되었어요!"
+
+          message='이글루의 이름이 변경되었어요!'
+
           onConfirm={handlePopupConfirm}
         />
       )}
 
       {showRankingPopup && (
         <RankingPopup
+          onBack={()=>{
+            handleRankingPopupConfirm();
+
+          }}
           onConfirm={() => {
             setShowRankingPopup(false);
             setShowQuizPopup(true);

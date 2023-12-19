@@ -19,17 +19,21 @@ function Login() {
       };
       console.log(userData); 
       const response = await API.post('/auth/login', userData);
-
+    
       if (response.status === 200) {
         console.log('로그인 성공:', response.data);
-        const { access, refresh } = response.data;
-        localStorage.setItem('access', access);
-        localStorage.setItem('refresh', refresh);
+    
+        // 액세스 토큰을 localStorage에 저장
+        const authorizationHeader = response.headers['authorization'];
+        localStorage.setItem('access', authorizationHeader);
+    
+        // 사용자 데이터를 localStorage에 저장 (필요한 경우)
+        localStorage.setItem('data', response.data);
+    
         alert('로그인에 성공했습니다.');
         navigate('/myigloo');
       }
     } catch (error) {
-      
       console.error('로그인 실패:', error);
       alert('로그인에 실패하였습니다. 다시 시도해주세요.');
     }

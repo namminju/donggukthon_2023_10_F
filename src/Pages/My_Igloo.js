@@ -8,8 +8,9 @@ import QuizPopup from './Popups/quiz_popup.js';
 import PaperPopup from './Popups/Paper/paper_popup.js';
 import CopyPopup from "./Popups/edit_popup.js";
 import API from '../API/axios';
+import axios from 'axios';
 
-function My_Igloo(code ) {
+function My_Igloo() {
   const [isEditing, setIsEditing] = useState(false);
   const [textValue, setTextValue] = useState('');
   const [maxTextLength, setMaxTextLength] = useState(100);
@@ -17,8 +18,10 @@ function My_Igloo(code ) {
   const [showRankingPopup, setShowRankingPopup] = useState(false);
   const [showQuizPopup, setShowQuizPopup] = useState(false);
   const [showCopyPopup, setShowCopyPopup] = useState(false);
-  const [editedTitle, setEditedTitle] = useState("홍길동");
+  const [editedTitle, setEditedTitle] = useState("누군가");
   const [showPaperPopup, setShowPaperPopup] = useState(false);
+  const [owner, setOwner] = useState(false); // New state for owner
+  const [copyCode, setcopyCode] = useState("000000"); // New state for owner
 
   const handleEditClick = () => {
     // 수정 중일 때와 수정 중이 아닐 때의 토글 로직
@@ -90,7 +93,6 @@ function My_Igloo(code ) {
       </div>
     );
   };
-  const textToCopy = "E5BX37"; // 복사할 텍스트
   const textAreaRef = useRef(null);
 
   const copyToClipboard = async () => {
@@ -121,22 +123,32 @@ function My_Igloo(code ) {
   }, []);
 
   const fetchData = async () => {
-    const endpoint="mainPage"
-    const access_token=localStorage.getItem('access');
-    try{
-      const response=await API.get(endpoint,{
-        headers:{
-          
-          Authorization: `Bearer ${access_token}`,
-          code : {code}
+    const endpoint = "/mainPage.json";
+    const access_token = localStorage.getItem('access');
+    const code = localStorage.getItem('code'); // code를 가져옴
+  
+    try {
+      const response = await axios.get(endpoint, {
+        code: code // code를 데이터로 전달
+      }, {
+        headers: {
+          Authorization: `Bearer ${access_token}`
         }
       });
+
       setDatas(response.data);
+      setEditedTitle(datas.data.nickname);
+      setOwner(datas.data.owner);
+      setcopyCode(datas.data.code);
+      console.log(datas.data.code);
     } catch (error) {
-      datas.data.nickname='';
+      datas.nickname = '';
       console.error("API 오류", error);
     }
   };
+
+
+
 
 
   return (
@@ -169,7 +181,7 @@ function My_Igloo(code ) {
         </div>
       ) : (
         <div className='title'>
-          {datas.data.nickname}의 이글루
+          {editedTitle}의 이글루
         </div>
       )}
       <button
@@ -182,18 +194,13 @@ function My_Igloo(code ) {
           className='edit'
         />
       </button>
-
-
-
-
-              
             </div>
           </div>
 
           <div className='center' >
             <div className='inline' onClick={CopyPopup} style={{ cursor: 'pointer' }}>
             <div ref={textAreaRef} style={{ textDecoration: 'underline' }}>
-              {textToCopy}
+              {copyCode}
             </div>
             &nbsp;
             <img

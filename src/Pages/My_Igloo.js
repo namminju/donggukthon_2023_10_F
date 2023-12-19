@@ -118,34 +118,33 @@ function My_Igloo() {
 
   const [datas, setDatas] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+ 
 
   const fetchData = async () => {
     const endpoint = "/mainPage.json";
     const access_token = localStorage.getItem('access');
-    const code = localStorage.getItem('code'); // code를 가져옴
-  
+    const code = localStorage.getItem('code');
+
     try {
       const response = await axios.get(endpoint, {
-        code: code // code를 데이터로 전달
-      }, {
-        headers: {
-          Authorization: `Bearer ${access_token}`
-        }
+        params: { code: code },
+        headers: { Authorization: `Bearer ${access_token}` },
       });
 
       setDatas(response.data);
-      setEditedTitle(datas.data.nickname);
-      setOwner(datas.data.owner);
-      setcopyCode(datas.data.code);
-      console.log(datas.data.code);
+      setEditedTitle(response.data.data.nickname);
+      setOwner(response.data.data.owner);
+      setcopyCode(response.data.data.code);
+      console.log(response.data.data.code);
     } catch (error) {
       datas.nickname = '';
       console.error("API 오류", error);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
 
 

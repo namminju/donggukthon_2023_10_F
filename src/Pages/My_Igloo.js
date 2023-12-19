@@ -240,6 +240,7 @@ function My_Igloo() {
 
     {showRankingPopup && (
         <RankingPopup
+          owner={owner}
           onBack={()=>{
             handleRankingPopupConfirm();
 
@@ -253,6 +254,7 @@ function My_Igloo() {
 
       {showQuizPopup && (
         <QuizPopup
+          owner={owner}
           onConfirm={() => {
             // Handle QuizPopup confirm logic here
             setShowQuizPopup(false);

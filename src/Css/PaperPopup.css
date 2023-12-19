@@ -61,7 +61,9 @@
   border-radius: 40px;
   margin-top: 100px;
 }
-
+.move_button:hover {
+  background: #2d89dc;
+}
 .paper_container {
   margin-top: 31px;
   display: flex;

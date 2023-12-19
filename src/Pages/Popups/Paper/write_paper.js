@@ -11,7 +11,7 @@ import PenguinP from "../../../Image/Paper/펭귄p.png";
 import QuitPopup from "../../../Pages/Popups/quit_popup.js";
 import EditPopup from "../../../Pages/Popups/edit_popup.js";
 
-const ShowPaper = ({ design, onConfirm }) => {
+const WritePaper = ({ design, onConfirm }) => {
   const [showQuit, setShowQuit] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [paperData, setPaperData] = useState([]);
@@ -108,7 +108,8 @@ const ShowPaper = ({ design, onConfirm }) => {
 
           {showQuit && (
             <QuitPopup
-              message="이 롤링페이퍼를 삭제하시겠어요? 한 번 삭제한 롤링페이퍼는 복구할 수 없어요."
+              message="이 페이지를 벗어나면 마지막 저장 후
+수정된 내용은 저장되지 않아요!"
               onQuit={() => {
                 setShowQuit(false);
                 setShowConfirm(true); // 이 부분에서 EditPopup을 나오게 설정
@@ -137,4 +138,4 @@ const ShowPaper = ({ design, onConfirm }) => {
   );
 };
 
-export default ShowPaper;
+export default WritePaper;

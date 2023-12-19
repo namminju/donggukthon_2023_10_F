@@ -1,39 +1,39 @@
 /* Popup.css */
 .popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.5); /* 반투명한 오버레이 배경 */
-  }
-  
-  .popup {
-    display: grid;
-    grid-template-rows: 2fr 1fr 2fr ;
-    justify-items: center;
-    align-items: center;
-    width:  61%;
-    aspect-ratio: 5 / 4;
-    background: #fff; /* 팝업 배경색 */
-    border-radius: 8px;
-    background: #FFFFFF;
-    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 145%;
-    padding: 3%;
-    margin: auto;
-  }
-.Quitpopup{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5); /* 반투명한 오버레이 배경 */
+}
+
+.popup {
   display: grid;
-  grid-template-rows: 2fr 1fr 2fr ;
+  grid-template-rows: 2fr 1fr 2fr;
+  justify-items: center;
+  align-items: center;
+  width: 61%;
+  aspect-ratio: 5 / 4;
+  background: #fff; /* 팝업 배경색 */
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 145%;
+  padding: 3%;
+  margin: auto;
+}
+.Quitpopup {
+  display: grid;
+  grid-template-rows: 2fr 1fr 2fr;
   justify-items: center;
   align-items: center;
   max-width: 310px;
@@ -41,10 +41,10 @@
   aspect-ratio: 5 / 4;
   background: #fff; /* 팝업 배경색 */
   border-radius: 8px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -53,47 +53,49 @@
   margin: 0;
 }
 
-  .confirm_button{
-    width: 50%;
-    aspect-ratio: 3 / 1;
-    background: #37A0FF;
-    color: #FFFFFF;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 20px;
-    /* identical to box height, or 125% */
-    text-align: center;
-    letter-spacing: -0.5px;
-    border-radius: 5px;
-    border: 0;
-  }
-  .cancel_button{
-    width: 50%;
-    aspect-ratio: 3 / 1;
-    background: #FFFFFF;
-    color: #7E7E7E;
-    border: 1px solid #D9D9D9;
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 20px;
-    /* identical to box height, or 125% */
-    text-align: center;
-    letter-spacing: -0.5px;
-    border-radius: 5px;
+.confirm_button {
+  width: 50%;
+  aspect-ratio: 3 / 1;
+  background: #37a0ff;
+  color: #ffffff;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+  /* identical to box height, or 125% */
+  text-align: center;
+  letter-spacing: -0.5px;
+  border-radius: 5px;
+  border: 0;
+}
+.confirm_button:hover {
+  background: #2d89dc;
+}
+.cancel_button {
+  width: 50%;
+  aspect-ratio: 3 / 1;
+  background: #ffffff;
+  color: #7e7e7e;
+  border: 1px solid #d9d9d9;
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  /* identical to box height, or 125% */
+  text-align: center;
+  letter-spacing: -0.5px;
+  border-radius: 5px;
+}
+.popup-content {
+  text-align: center;
+}
 
-  }
-  .popup-content {
-    text-align: center;
-  }
-  
-  /* 필요에 따라 추가적인 스타일을 적용하세요. */
-  .popup_button_container_2{
-    width: 93%;
-    gap:5%;
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-  }
+/* 필요에 따라 추가적인 스타일을 적용하세요. */
+.popup_button_container_2 {
+  width: 93%;
+  gap: 5%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

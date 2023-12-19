@@ -22,7 +22,7 @@ const QuizPopup = ({ onConfirm }) => {
   const [showQuitPopup, setShowQuitPopup] = useState(false);
   const [showQuizEditPopup, setShowQuizEditPopup] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false); // 단계 1
-
+  const [isAnswerEditMode, setIsAnswerEditMode] = useState(null);
   useEffect(() => {
     // 팝업이 열릴 때마다 API를 호출하여 데이터를 가져옴
     const fetchData = async () => {
@@ -30,7 +30,7 @@ const QuizPopup = ({ onConfirm }) => {
         const response = await axios.get('./quiz.json');
 
         const quizData = response.data.data;
-        console.log(response.data.data);
+        console.log(response.data);
         const matchingquizData = quizData.find(quiz => quiz.quizId === Number(quizId));
         console.log(matchingquizData);
         if (matchingquizData) {
@@ -53,6 +53,7 @@ const QuizPopup = ({ onConfirm }) => {
 
   const toggleEditMode = () => {
     setIsEditMode(!isEditMode); // 단계 2
+    console.log('sd');
   };
 
   const openPopup = () => {
@@ -62,7 +63,9 @@ const QuizPopup = ({ onConfirm }) => {
   const closePopup = () => {
     setIsOpen(false);
   };
-
+  const toggleAnswerEditMode = (index) => {
+    setIsAnswerEditMode((prevIndex) => (prevIndex === index ? null : index));
+  };
   const goToNextPopup = () => {
     // 다음 퀴즈로 이동하기 위해 quizId를 증가시키고 팝업을 다시 엽니다.
     setQuizId(prevId => prevId + 1);
@@ -98,12 +101,35 @@ const QuizPopup = ({ onConfirm }) => {
           <div></div>
           <div className='quiz_number_style'>{quizId}/10</div>
           <div className='quiz_container'>
-            <div>{quizData.question}</div>
-            <div style={{ alignItems: 'flex-end', display: 'inline-flex', justifyContent: 'flex-end' }}>
+
+            {isEditMode ? (
+              <textarea
+              value={quizData.question}
+              onChange={(e) => setQuizData({ ...quizData, question: e.target.value })}
+              className="font_normal" // Apply the class here
+              style={{
+                  whiteSpace: 'pre-wrap',
+                  wordBreak: 'break-all',
+                  background: 'none',
+                  border: 'none',
+                  textAlign: 'center',
+                  padding:'8% 8.5%',
+                  width: '83%',
+                  height: '28%',
+                  display: 'flex',
+                  alignItems:'center',
+                  justifyContent:'center'
+                }}
+            />
+            ) : (
+              <div>{quizData.question}</div>
+            )}
+            <div style={{ alignItems: 'flex-end', display: 'inline-flex', justifyContent: 'flex-end' }} onClick={toggleEditMode}>
               <img
                 src={require('../../Image/Quiz/answer_edit.png')}
                 alt="receipt"
                 style={{ width: '7.5%', height: 'auto' }}
+                
               />
             </div>
           </div>
@@ -122,9 +148,25 @@ const QuizPopup = ({ onConfirm }) => {
                 <div className="custom-radio">
                   <img src={selectedAnswer === String(index + 1) ? yesImage : noImage} alt={`Answer ${index + 1}`} />
                 </div>
-                <div>{option}</div>
+                {isAnswerEditMode === index ? (
+                  <input
+                    type="text"
+                    value={option}
+                    className='font_answer_edit'
+                    onChange={(e) => {
+                      const updatedOptions = [...quizData.options];
+                      updatedOptions[index] = e.target.value;
+                      setQuizData({ ...quizData, options: updatedOptions });
+
+                    
+                    }}
+                    onBlur={() => toggleAnswerEditMode(index)} // 포커스가 잃어졌을 때 편집 모드 종료
+                  />
+                ) : (
+                  <div>{option}</div>
+                )}
                 <div style={{ textAlign: 'right' }}>
-                  <img src={selectedAnswer === String(index + 1) ? yes_edit_Image : no_edit_Image} alt={`Answer ${index + 1}`} style={{ width: '65%' }} />
+                  <img src={selectedAnswer === String(index + 1) ? yes_edit_Image : no_edit_Image} alt={`Answer ${index + 1}`} style={{ width: '65%' }}  onClick={() => toggleAnswerEditMode(index)}/>
                 </div>
               </label>
             ))}

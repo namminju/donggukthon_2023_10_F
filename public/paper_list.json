@@ -1,0 +1,29 @@
+[
+  {
+    "code": 200,
+    "message": "OK",
+    "data": [
+      {
+        "rollingPaper": {
+          "paperId": 1,
+          "design": 1,
+          "creator": 4
+        }
+      },
+      {
+        "rollingPaper": {
+          "paperId": 2,
+          "design": 2,
+          "creator": 3
+        }
+      },
+      {
+        "rollingPaper": {
+          "paperId": 3,
+          "design": 5,
+          "creator": 1
+        }
+      }
+    ]
+  }
+]

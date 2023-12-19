@@ -1,9 +1,8 @@
-// Paper_popup.js
+// PaperPopup.js
 import React, { useState, useEffect } from "react";
 import "../../../Css/PaperPopup.css";
 import "../../../Css/Common.css";
 import axios from "axios";
-
 import BearTag from "../../../Image/Paper/곰.svg";
 import RaccoonTag from "../../../Image/Paper/너구리.svg";
 import SnowmanTag from "../../../Image/Paper/눈사람.svg";
@@ -13,17 +12,30 @@ import PenguinTag from "../../../Image/Paper/펭귄.svg";
 import ShowPaper from "./show_paper.js";
 
 const PaperPopup = ({ onConfirm }) => {
-  
-  const [selected, setSelected] = useState(null); // 기본값은 null로 설정
+  const [selected, setSelected] = useState(null);
   const [showPaper, setShowPaper] = useState(false);
-  const [paperTag, setTag] = useState(12);
+  const [paperData, setPaperData] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/paper_list.json");
+        setPaperData(response.data.data);
+        // 여기에서 추가적인 동작 수행 가능
+        console.log(response.data.data);
+      } catch (error) {
+        console.error("Error fetching rolling paper data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // 빈 배열을 두어 한 번만 호출되도록 설정
   const handleShowPaperClick = () => {
     setShowPaper(true);
   };
 
   const handlePaperTagClick = (tagIndex) => {
-    // 기존에 선택된 태그가 있다면 선택 해제
     if (selected !== null) {
       setSelected(null);
     }
@@ -31,24 +43,70 @@ const PaperPopup = ({ onConfirm }) => {
   };
 
   const renderImages = () => {
-    const images = [];
-
-    for (let i = 0; i < paperTag; i++) {
-      const isSelected = selected === i;
-
-      images.push(
-        <div className={`paper_tag ${isSelected ? "selected" : ""}`} key={i}>
-          <img
-            src={BearTag}
-            className="papertag"
-            onClick={() => handlePaperTagClick(i)}
-            alt={`Bear ${i}`}
-          />
-        </div>
-      );
+    if (paperData) {
+      console.log(paperData);
+      return paperData.map((rollingPaper, index) => {
+        const isSelected = selected === index;
+        const designValue = rollingPaper.design;
+        console.log(paperData);
+        return (
+          <div
+            className={`paper_tag ${isSelected ? "selected" : ""}`}
+            key={index}
+          >
+            {/* 이미지를 동적으로 선택 */}
+            {designValue === 1 && (
+              <img
+                src={PenguinTag}
+                className="papertag"
+                onClick={() => handlePaperTagClick(index)}
+                alt={`Penguin ${index}`}
+              />
+            )}
+            {designValue === 2 && (
+              <img
+                src={BearTag}
+                className="papertag"
+                onClick={() => handlePaperTagClick(index)}
+                alt={`Bear ${index}`}
+              />
+            )}
+            {designValue === 3 && (
+              <img
+                src={RabbitTag}
+                className="papertag"
+                onClick={() => handlePaperTagClick(index)}
+                alt={`Rabbit ${index}`}
+              />
+            )}
+            {designValue === 4 && (
+              <img
+                src={DeerTag}
+                className="papertag"
+                onClick={() => handlePaperTagClick(index)}
+                alt={`Deer ${index}`}
+              />
+            )}
+            {designValue === 5 && (
+              <img
+                src={SnowmanTag}
+                className="papertag"
+                onClick={() => handlePaperTagClick(index)}
+                alt={`Snowman ${index}`}
+              />
+            )}
+            {designValue === 6 && (
+              <img
+                src={RaccoonTag}
+                className="papertag"
+                onClick={() => handlePaperTagClick(index)}
+                alt={`Raccoon ${index}`}
+              />
+            )}
+          </div>
+        );
+      });
     }
-
-    return images;
   };
 
   return (

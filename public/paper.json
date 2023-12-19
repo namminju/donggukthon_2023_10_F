@@ -1,0 +1,22 @@
+[
+  {
+    "code": 200,
+    "message": "OK",
+    "canRead": true,
+    "data": {
+      "contents": "롤링페이퍼 내용"
+    }
+  },
+  {
+    "code": 401,
+    "message": "UnAuthorized",
+    "canRead": false,
+    "data": null
+  },
+  {
+    "code": 401,
+    "message": "Not Yet",
+    "canRead": false,
+    "data": null
+  }
+]

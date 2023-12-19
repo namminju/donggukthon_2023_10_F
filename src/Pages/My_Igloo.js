@@ -1,16 +1,17 @@
 // My_Igloo.js
-import React, { useState, useRef } from "react";
-import "../Css/My_Igloo.css"; // 스타일 파일 경로
-import "../Css/Common.css"; // 스타일 파일 경로
-import Popup from "./Popups/edit_popup.js"; // Import your Popup component
-import RankingPopup from "./Popups/Ranking_popup.js";
-import QuizPopup from "./Popups/quiz_popup.js";
-import PaperPopup from "./Popups/Paper/paper_popup.js";
+import React, { useState , useRef, useEffect  } from 'react';
+import '../Css/My_Igloo.css'; // 스타일 파일 경로
+import '../Css/Common.css'; // 스타일 파일 경로
+import Popup from './Popups/edit_popup.js'; // Import your Popup component
+import RankingPopup from './Popups/Ranking_popup.js';
+import QuizPopup from './Popups/quiz_popup.js';
+import PaperPopup from './Popups/Paper/paper_popup.js';
 import CopyPopup from "./Popups/edit_popup.js";
+import API from '../API/axios';
 
 function My_Igloo() {
   const [isEditing, setIsEditing] = useState(false);
-  const [textValue, setTextValue] = useState("");
+  const [textValue, setTextValue] = useState('');
   const [maxTextLength, setMaxTextLength] = useState(100);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showRankingPopup, setShowRankingPopup] = useState(false);
@@ -76,7 +77,7 @@ function My_Igloo() {
 
   const renderTextWithLineBreaks = () => {
     // 텍스트에 포함된 '\n'을 '<br>'로 변환
-    const textWithLineBreaks = textValue.split("\n").map((line, index) => (
+    const textWithLineBreaks = textValue.split('\n').map((line, index) => (
       <React.Fragment key={index}>
         {line}
         <br />
@@ -84,7 +85,7 @@ function My_Igloo() {
     ));
 
     return (
-      <div style={{ maxWidth: "100%", overflowWrap: "break-word" }}>
+      <div style={{ maxWidth: '100%', overflowWrap: 'break-word' }}>
         {textWithLineBreaks}
       </div>
     );
@@ -96,12 +97,12 @@ function My_Igloo() {
     try {
       if (textAreaRef.current) {
         await navigator.clipboard.writeText(textAreaRef.current.textContent);
-        console.log("Text copied to clipboard");
+        console.log('Text copied to clipboard');
       } else {
-        console.error("textAreaRef is not available");
+        console.error('textAreaRef is not available');
       }
     } catch (error) {
-      console.error("Error copying to clipboard:", error);
+      console.error('Error copying to clipboard:', error);
     }
   };
   const copyPopup = async () => {
@@ -113,81 +114,108 @@ function My_Igloo() {
     copyPopup();
   };
 
+  const [datas, setDatas] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const endpoint="mainPage"
+    const access_token=localStorage.getItem('access');
+    try{
+      const response=await API.get(endpoint,{
+        headers:{
+          Authorization: `Bearer ${access_token}`
+        }
+      });
+      setDatas(response.data);
+    } catch (error) {
+      datas.nickname='';
+      console.error("API 오류", error);
+    }
+  };
+
+
   return (
-    <div className="full_container">
-      <div className="background">
+    <div className='full_container'>
+      <div className='background'>
+        
         <div>
-          <div className="center_container">
-            <div className="title_container">
+          <div className='center_container'>
+            <div className='title_container'>
               <div>
                 <img
-                  src={require("../Image/MyIgloo/igloo.png")}
+                  src={require('../Image/MyIgloo/igloo.png')}
                   alt="MyIgloo"
-                  className="logo"
+                  className='logo'
                 />
               </div>
 
               {isEditing ? (
-                <div className="title">
-                  <input
-                    type="text"
-                    name="id"
-                    className="input_font_style"
-                    style={{
-                      width: "35%",
-                      textAlign: "center",
-                      aspectRatio: "1.5/1",
-                    }}
-                    placeholder="변경할 이글루의 이름을 입력하세요!"
-                    value={editedTitle}
-                    onChange={(e) => setEditedTitle(e.target.value)}
-                    required
-                  />
-                  의 이글루
-                </div>
-              ) : (
-                <div className="title">{editedTitle}의 이글루</div>
-              )}
-              <button
-                style={{ background: "transparent", border: "none" }}
-                onClick={handleEditClick}
-              >
-                <img
-                  src={require("../Image/MyIgloo/edit2.png")}
-                  alt="edit"
-                  className="edit"
-                />
-              </button>
+        <div className='title'>
+          <input
+            type='text'
+            name='id'
+            className='input_font_style'
+            style={{width:'35%', textAlign:'center', aspectRatio:'1.5/1'}}
+            placeholder='변경할 이글루의 이름을 입력하세요!'
+            value={editedTitle}
+            onChange={(e) => setEditedTitle(e.target.value)}
+            required
+          />의 이글루
+        </div>
+      ) : (
+        <div className='title'>
+          {datas.nickname}의 이글루
+        </div>
+      )}
+      <button
+        style={{ background: 'transparent', border: 'none' }}
+        onClick={handleEditClick}
+      >
+        <img
+          src={require('../Image/MyIgloo/edit2.png')}
+          alt="edit"
+          className='edit'
+        />
+      </button>
+
+
+
+
+              
             </div>
           </div>
 
-          <div className="center">
-            <div
-              className="inline"
-              onClick={CopyPopup}
-              style={{ cursor: "pointer" }}
-            >
-              <div ref={textAreaRef} style={{ textDecoration: "underline" }}>
-                {textToCopy}
-              </div>
-              &nbsp;
-              <img
-                src={require("../Image/MyIgloo/Vector.png")}
-                alt="receipt"
-                className="vector"
-              />
+          <div className='center' >
+            <div className='inline' onClick={CopyPopup} style={{ cursor: 'pointer' }}>
+            <div ref={textAreaRef} style={{ textDecoration: 'underline' }}>
+              {textToCopy}
             </div>
+            &nbsp;
+            <img
+              src={require('../Image/MyIgloo/Vector.png')}
+              alt="receipt"
+              className='vector'
+            />
+           </div>
           </div>
 
-          <div className="center_container"></div>
+          <div className='center_container'>
+            
+          </div>
         </div>
 
-        <div className="center_container">
-          <div className="last_button_container">
-            <button className="button" onClick={handleRankingButtonClick}>
+
+
+
+        <div className='center_container'>
+          <div className='last_button_container'>
+            <button className='button' onClick={handleRankingButtonClick}>
               퀴즈 바로가기
             </button>
-            <button className="button" onClick={handlePaperPopupClick}>
+            <button className='button' onClick={handlePaperPopupClick}>
               롤링페이퍼
             </button>
           </div>
@@ -197,15 +225,16 @@ function My_Igloo() {
       {/* Render the Popup component conditionally */}
       {showEditPopup && (
         <Popup
-          message="이글루의 이름이 변경되었어요!"
+          message='이글루의 이름이 변경되었어요!'
           onConfirm={handlePopupConfirm}
         />
       )}
 
-      {showRankingPopup && (
+    {showRankingPopup && (
         <RankingPopup
-          onBack={() => {
+          onBack={()=>{
             handleRankingPopupConfirm();
+
           }}
           onConfirm={() => {
             setShowRankingPopup(false);
@@ -225,15 +254,15 @@ function My_Igloo() {
 
       {showCopyPopup && (
         <Popup
-          message={"초대코드가 복사되었어요!"}
+          message={'초대코드가 복사되었어요!'}
           onConfirm={() => {
             // Handle CopyPopup confirm logic here
-
+            
             setShowCopyPopup(false);
           }}
         />
       )}
-      {showPaperPopup && (
+    {showPaperPopup && (
         <PaperPopup
           onConfirm={() => {
             // Handle QuizPopup confirm logic here
@@ -241,6 +270,7 @@ function My_Igloo() {
           }}
         />
       )}
+      
     </div>
   );
 }

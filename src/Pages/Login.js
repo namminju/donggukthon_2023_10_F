@@ -13,22 +13,28 @@ function Login() {
     e.preventDefault();
 
     try {
-      const userData = { id, password }; // 객체 구조 분해 활용
+      const userData = {
+        id: id, // 사용자로부터 입력받은 id 값
+        password: password // 사용자로부터 입력받은 password 값
+      };
+      console.log(userData); 
       const response = await API.post('/auth/login', userData);
 
       if (response.status === 200) {
         console.log('로그인 성공:', response.data);
-        const { access, refresh } = response.data; // 객체 구조 분해 활용
+        const { access, refresh } = response.data;
         localStorage.setItem('access', access);
         localStorage.setItem('refresh', refresh);
         alert('로그인에 성공했습니다.');
         navigate('/myigloo');
       }
     } catch (error) {
+      
       console.error('로그인 실패:', error);
       alert('로그인에 실패하였습니다. 다시 시도해주세요.');
     }
   };
+
 
   return (
     <div className='full_container'>

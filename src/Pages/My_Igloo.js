@@ -23,7 +23,7 @@ function My_Igloo() {
   const [editedTitle, setEditedTitle] = useState("누군가");
   const [showPaperPopup, setShowPaperPopup] = useState(false);
   const [owner, setOwner] = useState(false); // New state for owner
-  const [copyCode, setcopyCode] = useState("000000"); // New state for owner
+  const [copyCode, setcopyCode] = useState("BCGPG"); // New state for owner
   const [showErrorPopup, setShowErrorPopup] = useState(false);
 
   
@@ -140,7 +140,7 @@ function My_Igloo() {
     fetchData();
   }, []);
 
-  const [previousTitle, setPreviousTitle] = useState("누군가");
+  const [previousTitle, setPreviousTitle] = useState("홍길동");
 
   const handleEditClick = async () => {
     // 수정 중일 때와 수정 중이 아닐 때의 토글 로직

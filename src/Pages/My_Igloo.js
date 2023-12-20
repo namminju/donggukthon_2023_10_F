@@ -158,7 +158,7 @@ function My_Igloo() {
   
       try {
         // API 요청 시 객체를 전송
-        const response = await API.post("/updateNickname", requestData, {
+        const response = await API.patch("/nickname", requestData, {
           headers: { Authorization: `Bearer ${access_token}` },
         });
   
@@ -301,7 +301,7 @@ function My_Igloo() {
 
       {showQuizPopup && (
         <QuizPopup
-          iglooId={iglooId}
+        iglooId={iglooId}
           owner={owner}
           onConfirm={() => {
             // Handle QuizPopup confirm logic here

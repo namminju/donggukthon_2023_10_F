@@ -21,12 +21,13 @@ function Start() {
       <div className='intro'>
         <div>
         <div className='igloo_intro'>
-          <div>이글루 소개</div>
-          <div>둘줄 정도로다가 짜란</div>
+          <div>IGLOO</div>
+        
         </div>
         <div className='igloo_intro_sub'>
-          <div>이글루를 통해 이룰 수 있는 것</div>
-          <div>내용 짧게 짜라란</div>
+          <div>우리들의 따뜻한 연말</div>
+          <div>못다 한 이야기는 이글루에 담아요!</div>
+
         </div>
         <div className='animal_freiends'>
           <img

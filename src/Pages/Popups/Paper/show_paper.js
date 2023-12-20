@@ -33,9 +33,9 @@ const ShowPaper = ({ design, onConfirm }) => {
     fetchData();
   }, []);
   //canRead확인
-  const checkCanRead = () => {
-    const canRead = paperData.canRead;
-  };
+  if (paperData.canRead == false) {
+    onConfirm();
+  }
   //디자인 매칭
 
   let designURL;

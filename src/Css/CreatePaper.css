@@ -22,7 +22,7 @@
   margin-left: 3%;
 }
 
-.paper_popup {
+.create_popup {
   display: grid;
   grid-template-rows: 1fr 0.3fr 1fr 11.5fr 1.6fr;
   justify-items: center;
@@ -88,6 +88,9 @@
   padding: 0;
 }
 .paper_tag:hover {
+  background: var(--2, #e6f3ff);
+}
+.paper_tag.selected {
   background: var(--2, #e6f3ff);
 }
 .paper {

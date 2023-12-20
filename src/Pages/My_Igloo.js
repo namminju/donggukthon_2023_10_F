@@ -6,6 +6,7 @@ import Popup from "./Popups/edit_popup.js"; // Import your Popup component
 import RankingPopup from "./Popups/Ranking_popup.js";
 import QuizPopup from "./Popups/quiz_popup.js";
 import PaperPopup from "./Popups/Paper/paper_popup.js";
+import ErrorPopup from "./Popups/Error_popup.js";
 import CopyPopup from "./Popups/edit_popup.js";
 import API from "../API/axios";
 import axios from "axios";
@@ -22,21 +23,13 @@ function My_Igloo() {
   const [showPaperPopup, setShowPaperPopup] = useState(false);
   const [owner, setOwner] = useState(false); // New state for owner
   const [copyCode, setcopyCode] = useState("000000"); // New state for owner
+  const [showErrorPopup, setShowErrorPopup] = useState(false);
 
-  const handleEditClick = () => {
-    // 수정 중일 때와 수정 중이 아닐 때의 토글 로직
-    if (isEditing) {
-      setShowEditPopup(true);
-    } else {
-      setIsEditing(!isEditing);
-    }
-
-    // TODO: 여기에서 editedTitle 상태를 활용하여 실제로 수정된 내용을 처리할 수 있음
-    console.log("수정된 내용:", editedTitle);
-  };
+  
   const handleRankingButtonClick = () => {
     setShowRankingPopup(true);
   };
+
 
   const handlePopupCancel = () => {
     setShowEditPopup(false);
@@ -46,6 +39,7 @@ function My_Igloo() {
     // Save changes or perform other actions
     setIsEditing(false);
     setShowEditPopup(false); // 팝업 닫기
+    setShowErrorPopup(false);
   };
   const handleRankingPopupConfirm = () => {
     // Save changes or perform other actions
@@ -144,6 +138,54 @@ function My_Igloo() {
     fetchData();
   }, []);
 
+  const [previousTitle, setPreviousTitle] = useState("누군가");
+
+  const handleEditClick = async () => {
+    // 수정 중일 때와 수정 중이 아닐 때의 토글 로직
+    if (isEditing) {
+      // Save the previous title before attempting to update
+      const previousTitleCopy = previousTitle;
+  
+      // 객체 형태로 변환
+      const access_token = localStorage.getItem("access");
+      const requestData = {
+        nickName: {
+          nickName: editedTitle,
+        },
+      };
+  
+      try {
+        // API 요청 시 객체를 전송
+        const response = await API.post("/updateNickname", requestData, {
+          headers: { Authorization: `Bearer ${access_token}` },
+        });
+  
+        if (response.data.code === 200) {
+          // 변경 성공 메시지 표시 또는 다른 작업 수행
+          setShowEditPopup(true); // 팝업 닫기
+          setIsEditing(false);
+          // Note: Do not update editedTitle here, keep it unchanged on success
+        } else {
+          // 변경 실패 시 이전 값으로 되돌리기
+          setEditedTitle(previousTitleCopy);
+          // 변경 실패 메시지 표시 또는 다른 작업 수행
+          setShowErrorPopup(true);
+        }
+      } catch (error) {
+        console.error("닉네임 변경 오류:", error);
+        // 변경 실패 시 이전 값으로 되돌리기
+        setEditedTitle(previousTitleCopy);
+        // 변경 실패 메시지 표시 또는 다른 작업 수행
+        setShowErrorPopup(true);
+      }
+    } else {
+      setIsEditing(!isEditing);
+    }
+    // TODO: 여기에서 editedTitle 상태를 활용하여 실제로 수정된 내용을 처리할 수 있음
+    console.log("수정된 내용:", editedTitle);
+  };
+  
+  
   return (
     <div className="full_container">
       <div className="background">
@@ -160,20 +202,21 @@ function My_Igloo() {
 
               {isEditing ? (
                 <div className="title">
-                  <input
-                    type="text"
-                    name="id"
-                    className="input_font_style"
-                    style={{
-                      width: "35%",
-                      textAlign: "center",
-                      aspectRatio: "1.5/1",
-                    }}
-                    placeholder="변경할 이글루의 이름을 입력하세요!"
-                    value={editedTitle}
-                    onChange={(e) => setEditedTitle(e.target.value)}
-                    required
-                  />
+<input
+  type="text"
+  name="id"
+  className="input_font_style"
+  style={{
+    width: "35%",
+    textAlign: "center",
+    aspectRatio: "1.5/1",
+  }}
+  placeholder="변경할 이글루의 이름을 입력하세요!"
+  value={editedTitle}
+  onFocus={() => setPreviousTitle(editedTitle)} // Save the previous title when starting to edit
+  onChange={(e) => setEditedTitle(e.target.value)}
+  required
+/>
                   의 이글루
                 </div>
               ) : (
@@ -232,7 +275,14 @@ function My_Igloo() {
           onConfirm={handlePopupConfirm}
         />
       )}
-
+      {/* Render the Popup component conditionally */}
+      {showErrorPopup && (
+        <ErrorPopup
+          message={"이글루의 이름 변경을 실패하였습니다.\n다시 시도해 주세요."}
+          onConfirm_q={handlePopupConfirm}
+        />
+      )}
+      
       {showRankingPopup && (
         <RankingPopup
           owner={owner}

@@ -133,13 +133,13 @@ label{
     color: #535353;
 }
 .ip{
-    width: 60%;
+    width: 70%;
+    aspect-ratio: 6 / 1;
     background: #F2F2F2;
     border-radius: 5px;
-    margin-top: 3%;
     /* Inside auto layout */
 
-
+    padding:10px;
     font-family: 'Pretendard';
     font-style: normal;
     font-weight: 400;
@@ -151,4 +151,37 @@ label{
     /* font2 */
     color: #7E7E7E;
 
+}
+.join_title{
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 145%;
+    /* or 26px */
+    /* leading-trim and text-edge are draft CSS properties.
+    
+    Read more: https://drafts.csswg.org/css-inline-3/#leading-trim
+    */
+    text-align: center;
+    letter-spacing: -0.5px;
+    
+    /* main */
+    color: #37A0FF;
+
+}
+
+.double_check{
+    width: 100%;
+    aspect-ratio: 1.5/1;
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+     font-size: 14px;
+    line-height: 145%;
+    letter-spacing: -0.5px;
+    color: #FFFFFF;
+    background: #37A0FF;
+    border-radius: 5px;
+    border:none;
 }

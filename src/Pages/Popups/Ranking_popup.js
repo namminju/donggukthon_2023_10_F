@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import '../../Css/RankingPopup.css';
 import '../../Css/Common.css';
-import axios from 'axios';
+import API from '../../API/axios.js';
 
-const RankingPopup = ({ owner, onBack, onConfirm }) => {
+const RankingPopup = ({ iglooId, owner, onBack, onConfirm }) => {
   const [Rankings, setRankings] = useState([]);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const RankingPopup = ({ owner, onBack, onConfirm }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('./rank.json');
+      const response = await API.get(`/quiz/rank/${iglooId}`);
       setRankings(response.data);
       console.log(Rankings.rank);
     } catch (error) {
@@ -62,6 +62,7 @@ const RankingPopup = ({ owner, onBack, onConfirm }) => {
 
     return repeatedContent;
   };
+
   return (
     <div className="popup-overlay">
       <div style={{ width: '100%', maxWidth: '420px' }}>
@@ -82,7 +83,7 @@ const RankingPopup = ({ owner, onBack, onConfirm }) => {
             <div className='ranking_title'>점수</div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div className='ranking_container'>{repeatContent(15)}</div>
+            <div className='ranking_container'>{repeatContent(30)}</div>
           </div>
           <button
             onClick={onConfirm}

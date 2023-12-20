@@ -1,7 +1,6 @@
 // Popup.js
 import React, { useState, useEffect , useRef} from 'react';
 import '../../Css/QuizPopup.css'; // Import the CSS file
-import cloneDeep from 'lodash/cloneDeep';
 
 import QuitPopup from './quit_popup';
 import QuizEditPopup from './edit_popup';
@@ -12,13 +11,15 @@ import yesImage from '../../Image/Quiz/yes.png';
 
 import no_edit_Image from '../../Image/Quiz/no_edit.png';
 import yes_edit_Image from '../../Image/Quiz/yes_edit.png';
+import data from './quiz.json';
 
 import axios from 'axios';
 
 const QuizPopup = ({ owner, onConfirm }) => {
   const scoreRef = useRef(0);
-  const [quizId, setQuizId] = useState(1);
-  const [quizData, setQuizData] = useState({});
+  const [quizId, setQuizId] = useState(0);
+  const [all, setAll] = useState([]);
+  
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showQuitPopup, setShowQuitPopup] = useState(false);
@@ -26,34 +27,21 @@ const QuizPopup = ({ owner, onConfirm }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isAnswerEditMode, setIsAnswerEditMode] = useState(null);
 
+  owner = 'true';
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get('./quiz.json');
         const quizData = response.data.data;
-        const changeDtass = cloneDeep(response.data.data); // lodash의 cloneDeep 사용
-        changeDtass[Number(quizId) - 1].question = "1234";
-        console.log(quizData);
-        console.log(changeDtass);
-        const matchingquizData = quizData.find(quiz => quiz.quizId === Number(quizId));
-        if (matchingquizData) {
-          setQuizData(matchingquizData);
-        } else {
-          console.log('에러');
-        }
+        setAll(quizData);
       } catch (error) {
         console.error('Error fetching quiz data:', error);
       }
     };
 
     fetchData();
-  }, [isOpen, quizId]);
-
-  
-
-  useEffect(() => {
-    setSelectedAnswer(null);
-  }, [quizId]);
+  }, []);
 
   const handleRadioChange = (answer) => {
     setSelectedAnswer(answer);
@@ -71,23 +59,32 @@ const QuizPopup = ({ owner, onConfirm }) => {
     setIsOpen(false);
   };
 
-  const toggleAnswerEditMode = (index) => {
+  const toggleAnswerEditMode = (index, option) => {
+    console.log(`index : ${index}, option : ${option}`)
+    const newAll = all.slice();
+    newAll[quizId].options[index] = option;
+    setAll(newAll);
     setIsAnswerEditMode((prevIndex) => (prevIndex === index ? null : index));
   };
 
   const goToNextPopup = () => {
-    if (selectedAnswer === quizData.correctAnswer) {
-      const updatedScore = scoreRef.current + 10;
-      console.log("제출:" + selectedAnswer);
-      console.log("정답:" + quizData.correctAnswer);
-      console.log("점수:" + updatedScore);
-      scoreRef.current = updatedScore;
-    }
     console.log("제출:" + selectedAnswer);
-    console.log("정답:" + quizData.correctAnswer);
-    console.log("점수:" + scoreRef.current);
+    console.log("정답:" + all[quizId].correctAnswer);
+    console.log("이전 점수: " + scoreRef.current);
+
+    if (selectedAnswer === all[quizId].correctAnswer) {
+      scoreRef.current = scoreRef.current + 10;
+    }
+    
+    console.log("이후 점수: " + scoreRef.current);
+    console.log("전체 데이터 : " + all);
     setSelectedAnswer(null);
     setIsEditMode(false);
+
+    if(all.length <= quizId) {
+      return;
+    }
+
     setQuizId((prevId) => prevId + 1);
     openPopup();
   };
@@ -96,39 +93,28 @@ const QuizPopup = ({ owner, onConfirm }) => {
     // 다음 퀴즈로 이동하기 전에 라디오 버튼 초기화
     setSelectedAnswer(null);
 
+    if(0 >= quizId) {
+      return;
+    }
+
     // 다음 퀴즈로 이동하기 위해 quizId를 감소시키고 팝업을 엽니다.
     setQuizId((prevId) => prevId - 1);
     openPopup();
   };
 
 
-  const SavePopup = async () => {
-    // JSON 형식으로 퀴즈 데이터 변환
-    const jsonQuizData = JSON.stringify(quizData);
-  
-    try {
-      // 파일에 퀴즈 데이터 저장
-      const blob = new Blob([jsonQuizData], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'quiz_data.json';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-  
-      console.log('퀴즈 데이터가 파일에 저장되었습니다.');
-    } catch (error) {
-      console.error('퀴즈 데이터 저장 실패:', error);
-    }
-  
+  const SavePopup = () => {
     setShowQuizEditPopup(true);
-  };
-  
+};
 
   const Quit_Popup = () => {
     setShowQuitPopup(true);
   };
+
+  if (all.length === 0) {
+      return <></>;
+  }
+
   return (
     <div className="popup-overlay">
       <div style={{ width: '100%', maxWidth: '420px' }}>
@@ -142,12 +128,16 @@ const QuizPopup = ({ owner, onConfirm }) => {
             &emsp;퀴즈 나가기
           </div>
           <div></div>
-          <div className='quiz_number_style'>{quizId}/10</div>
+          <div className='quiz_number_style'>{quizId + 1}/10</div>
           <div className='quiz_container'>
             {isEditMode ? (
               <textarea
-                value={quizData.question}
-                onChange={(e) => setQuizData({ ...quizData, question: e.target.value })}
+                value={all[quizId].question}
+                onChange={(e) => {
+                  const newAll = all.slice();
+                  newAll[quizId].question = e.target.value;
+                  setAll(newAll);
+                }}
                 className="font_normal"
                 style={{
                   whiteSpace: 'pre-wrap',
@@ -164,7 +154,7 @@ const QuizPopup = ({ owner, onConfirm }) => {
                 }}
               />
             ) : (
-              <div>{quizData.question}</div>
+              <div>{all[quizId].question}</div>
             )}
             <div style={{ alignItems: 'flex-end', display: 'inline-flex', justifyContent: 'flex-end' }} onClick={toggleEditMode}>
               {owner && (
@@ -178,7 +168,7 @@ const QuizPopup = ({ owner, onConfirm }) => {
           </div>
           <div></div>
           <form className='answer_container'>
-            {quizData.options && quizData.options.map((option, index) => (
+            {all[quizId].options && all[quizId].options.map((option, index) => (
               <label key={index} htmlFor={`answer${index + 1}`} className={`answer_box ${selectedAnswer === option ? 'selected' : ''}`}>
                 <input
                   type="radio"
@@ -194,14 +184,13 @@ const QuizPopup = ({ owner, onConfirm }) => {
                 {isAnswerEditMode === index ? (
                   <input
                     type="text"
-                    value={option}
+                    value={all[quizId].options[index]}
                     className='font_answer_edit'
                     onChange={(e) => {
-                      const updatedOptions = [...quizData.options];
-                      updatedOptions[index] = e.target.value;
-                      setQuizData({ ...quizData, options: updatedOptions });
+                      const newAll = all.slice();
+                      newAll[quizId].options[index] = e.target.value;
+                      setAll(newAll);
                     }}
-                    onBlur={() => toggleAnswerEditMode(index)}
                   />
                 ) : (
                   <div>{option}</div>
@@ -212,7 +201,7 @@ const QuizPopup = ({ owner, onConfirm }) => {
                       src={selectedAnswer === option ? yes_edit_Image : no_edit_Image}
                       alt={`Answer ${index + 1}`}
                       style={{ width: '65%' }}
-                      onClick={() => toggleAnswerEditMode(index)}
+                      onClick={() => toggleAnswerEditMode(index, option)}
                     />
                   )}
                 </div>
@@ -220,7 +209,7 @@ const QuizPopup = ({ owner, onConfirm }) => {
             ))}
           </form>
           <div className='quiz_last_button'>
-            {quizId === 1 ? (
+            {quizId === 0 ? (
               <div></div>
             ) : (
               <img
@@ -230,7 +219,7 @@ const QuizPopup = ({ owner, onConfirm }) => {
                 onClick={goToPreviousPopup}
               />
             )}
-            {quizId === 10 ? (
+            {quizId === 9 ? (
               <img
                 src={require('../../Image/Quiz/save.png')}
                 alt="exit"

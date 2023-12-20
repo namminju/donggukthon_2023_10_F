@@ -9,11 +9,12 @@ import PaperPopup from "./Popups/Paper/paper_popup.js";
 import ErrorPopup from "./Popups/Error_popup.js";
 import CopyPopup from "./Popups/edit_popup.js";
 import API from "../API/axios";
-import axios from "axios";
+import { set } from "lodash";
 
 function My_Igloo() {
   const [isEditing, setIsEditing] = useState(false);
   const [textValue, setTextValue] = useState("");
+  const [iglooId, setiglooId] = useState("");
   const [maxTextLength, setMaxTextLength] = useState(100);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showRankingPopup, setShowRankingPopup] = useState(false);
@@ -113,7 +114,7 @@ function My_Igloo() {
   const [datas, setDatas] = useState([]);
 
   const fetchData = async () => {
-    const endpoint = "/mainPage.json";
+    const endpoint = "/mainPage";
     const access_token = localStorage.getItem("access");
     const code = localStorage.getItem("code");
 
@@ -125,6 +126,7 @@ function My_Igloo() {
 
       setDatas(response.data);
       setEditedTitle(response.data.data.nickname);
+      setiglooId(response.data.data.id);
       setOwner(response.data.data.owner);
       setcopyCode(response.data.data.code);
       console.log(response.data.data.owner);
@@ -286,6 +288,7 @@ function My_Igloo() {
       {showRankingPopup && (
         <RankingPopup
           owner={owner}
+          iglooId={iglooId}
           onBack={() => {
             handleRankingPopupConfirm();
           }}
@@ -298,6 +301,7 @@ function My_Igloo() {
 
       {showQuizPopup && (
         <QuizPopup
+          iglooId={iglooId}
           owner={owner}
           onConfirm={() => {
             // Handle QuizPopup confirm logic here

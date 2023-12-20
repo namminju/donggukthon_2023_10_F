@@ -11,11 +11,10 @@ import yesImage from '../../Image/Quiz/yes.png';
 
 import no_edit_Image from '../../Image/Quiz/no_edit.png';
 import yes_edit_Image from '../../Image/Quiz/yes_edit.png';
-import data from './quiz.json';
 
 import axios from 'axios';
 
-const QuizPopup = ({ owner, onConfirm }) => {
+const QuizPopup = ({ iglooId, owner, onConfirm }) => {
   const scoreRef = useRef(0);
   const [quizId, setQuizId] = useState(0);
   const [all, setAll] = useState([]);
@@ -24,10 +23,9 @@ const QuizPopup = ({ owner, onConfirm }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showQuitPopup, setShowQuitPopup] = useState(false);
   const [showQuizEditPopup, setShowQuizEditPopup] = useState(false);
+  const [showQuizCosPopup, setshowQuizCosPopup] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isAnswerEditMode, setIsAnswerEditMode] = useState(null);
-
-  owner = 'true';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +40,6 @@ const QuizPopup = ({ owner, onConfirm }) => {
 
     fetchData();
   }, []);
-
   const handleRadioChange = (answer) => {
     setSelectedAnswer(answer);
   };
@@ -58,6 +55,38 @@ const QuizPopup = ({ owner, onConfirm }) => {
   const closePopup = () => {
     setIsOpen(false);
   };
+  const formatData = () => {
+    return all.map((quiz) => {
+      return {
+        quizId: quiz.quizId,
+        question: quiz.question,
+        answer: selectedAnswer || '', // Replace this with your logic to get the selected answer
+      };
+    });
+  };
+
+  // Function to handle quiz submission
+  // Function to handle quiz submission
+const submitQuiz = async () => {
+  try {
+    const access_token = localStorage.getItem("access");
+    
+    const response = await axios.post(`/api/quiz/submit/${iglooId}`, all, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    console.log('Response:', response.data);
+  } catch (error) {
+    console.error('Error submitting quiz data:', error);
+  }
+};
+const cossubmitPopup = () => {
+  setshowQuizCosPopup(true);
+  customSubmitFunction();
+};
 
   const toggleAnswerEditMode = (index, option) => {
     console.log(`index : ${index}, option : ${option}`)
@@ -77,7 +106,8 @@ const QuizPopup = ({ owner, onConfirm }) => {
     }
     
     console.log("이후 점수: " + scoreRef.current);
-    console.log("전체 데이터 : " + all);
+    console.log("전체 데이터 : ");
+    console.log();
     setSelectedAnswer(null);
     setIsEditMode(false);
 
@@ -88,7 +118,36 @@ const QuizPopup = ({ owner, onConfirm }) => {
     setQuizId((prevId) => prevId + 1);
     openPopup();
   };
-
+  const customSubmitFunction = async () => {
+    try {
+      const access_token = localStorage.getItem("access");
+  
+      if (!access_token) {
+        // Handle the case where the access token is missing
+        console.error('Access token not found');
+        return;
+      }
+  
+      const headers = {
+        'Authorization': `Bearer ${access_token}`,
+        'Content-Type': 'application/json',
+      };
+  
+      const formattedData = all.map((quiz) => ({
+        quizId: quiz.quizId,
+        question: quiz.question,
+        answer: quiz.answer || '', // Adjust this based on the structure of your quiz data
+      }));
+  console.log(formattedData);
+      const response = await axios.post(`/api/quiz/submit/${iglooId}`, formattedData, {
+        headers,
+      });
+  
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error submitting quiz data:', error);
+    }
+  };
   const goToPreviousPopup = () => {
     // 다음 퀴즈로 이동하기 전에 라디오 버튼 초기화
     setSelectedAnswer(null);
@@ -105,6 +164,7 @@ const QuizPopup = ({ owner, onConfirm }) => {
 
   const SavePopup = () => {
     setShowQuizEditPopup(true);
+    submitQuiz();
 };
 
   const Quit_Popup = () => {
@@ -209,32 +269,34 @@ const QuizPopup = ({ owner, onConfirm }) => {
             ))}
           </form>
           <div className='quiz_last_button'>
-            {quizId === 0 ? (
-              <div></div>
-            ) : (
-              <img
-                src={require('../../Image/Quiz/Previous.png')}
-                alt="Previous"
-                style={{ width: '50%' }}
-                onClick={goToPreviousPopup}
-              />
-            )}
-            {quizId === 9 ? (
-              <img
-                src={require('../../Image/Quiz/save.png')}
-                alt="exit"
-                style={{ width: '50%' }}
-                onClick={SavePopup}
-              />
-            ) : (
-              <img
-                src={require('../../Image/Quiz/next.png')}
-                alt="next"
-                style={{ width: '50%' }}
-                onClick={goToNextPopup}
-              />
-            )}
-          </div>
+  {quizId === 0 ? (
+    <div></div>
+  ) : (
+    <img
+      src={require('../../Image/Quiz/Previous.png')}
+      alt="Previous"
+      style={{ width: '50%' }}
+      onClick={goToPreviousPopup}
+    />
+  )}
+
+  {quizId === 9 ? (
+    <img
+      src={require('../../Image/Quiz/save.png')}
+      alt="exit"
+      style={{ width: '50%' }}
+      onClick={owner ? SavePopup : cossubmitPopup}
+    />
+  ) : (
+    <img
+      src={require('../../Image/Quiz/next.png')}
+      alt="next"
+      style={{ width: '50%' }}
+      onClick={goToNextPopup}
+    />
+  )}
+</div>
+
         </div>
       </div>
       {showQuitPopup && (
@@ -252,6 +314,15 @@ const QuizPopup = ({ owner, onConfirm }) => {
       {showQuizEditPopup && (
         <QuizEditPopup // 컴포넌트 이름을 올바르게 수정합니다.
           message={`퀴즈 수정이 완료되었어요!`}
+          onConfirm={() => {
+            onConfirm();
+            
+          }}
+        />
+      )}
+      {showQuizCosPopup && (
+        <QuizEditPopup // 컴포넌트 이름을 올바르게 수정합니다.
+          message={`퀴즈 제출이 완료되었어요!`}
           onConfirm={() => {
             onConfirm();
             

@@ -127,7 +127,7 @@ function My_Igloo() {
       setEditedTitle(response.data.data.nickname);
       setOwner(response.data.data.owner);
       setcopyCode(response.data.data.code);
-      console.log(response.data.data.code);
+      console.log(response.data.data.owner);
     } catch (error) {
       datas.nickname = "";
       console.error("API 오류", error);

@@ -118,7 +118,7 @@ function My_Igloo() {
     const code = localStorage.getItem("code");
 
     try {
-      const response = await axios.get(endpoint, {
+      const response = await API.get(endpoint, {
         params: { code: code },
         headers: { Authorization: `Bearer ${access_token}` },
       });

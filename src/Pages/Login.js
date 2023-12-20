@@ -20,7 +20,7 @@ function Login() {
       console.log(userData); 
       const response = await API.post('/auth/login', userData);
     
-      if (response.status === 200) {
+      if (response.code === 200) {
         console.log('로그인 성공:', response.data);
     
         // 액세스 토큰을 localStorage에 저장

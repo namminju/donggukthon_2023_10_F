@@ -11,7 +11,7 @@ import yesImage from '../../Image/Quiz/yes.png';
 
 import no_edit_Image from '../../Image/Quiz/no_edit.png';
 import yes_edit_Image from '../../Image/Quiz/yes_edit.png';
-
+import API from '../../API/axios.js';
 import axios from 'axios';
 
 const QuizPopup = ({ iglooId, owner, onConfirm }) => {
@@ -26,11 +26,13 @@ const QuizPopup = ({ iglooId, owner, onConfirm }) => {
   const [showQuizCosPopup, setshowQuizCosPopup] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isAnswerEditMode, setIsAnswerEditMode] = useState(null);
+  const [selectedAnswers, setSelectedAnswers] = useState(Array(all.length).fill(null));
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('./quiz.json');
+        const response = await API.get(`/quiz/${iglooId}`);
         const quizData = response.data.data;
         setAll(quizData);
       } catch (error) {
@@ -56,11 +58,11 @@ const QuizPopup = ({ iglooId, owner, onConfirm }) => {
     setIsOpen(false);
   };
   const formatData = () => {
-    return all.map((quiz) => {
+    return all.map((quiz, index) => {
       return {
         quizId: quiz.quizId,
         question: quiz.question,
-        answer: selectedAnswer || '', // Replace this with your logic to get the selected answer
+        answer: selectedAnswers[index] || '', // Use the selected answer for the current quiz
       };
     });
   };
@@ -71,7 +73,7 @@ const submitQuiz = async () => {
   try {
     const access_token = localStorage.getItem("access");
     
-    const response = await axios.post(`/api/quiz/submit/${iglooId}`, all, {
+    const response = await API.post(`/quiz/submit/${iglooId}`, all, {
       headers: {
         'Authorization': `Bearer ${access_token}`,
         'Content-Type': 'application/json',
@@ -100,24 +102,31 @@ const cossubmitPopup = () => {
     console.log("제출:" + selectedAnswer);
     console.log("정답:" + all[quizId].correctAnswer);
     console.log("이전 점수: " + scoreRef.current);
-
+  
+    // Save the selected answer for the current quiz
+    const updatedSelectedAnswers = [...selectedAnswers];
+    updatedSelectedAnswers[quizId] = selectedAnswer;
+    setSelectedAnswers(updatedSelectedAnswers);
+  
     if (selectedAnswer === all[quizId].correctAnswer) {
       scoreRef.current = scoreRef.current + 10;
     }
-    
+  
     console.log("이후 점수: " + scoreRef.current);
     console.log("전체 데이터 : ");
     console.log();
+    
+    // Reset the selected answer for the current quiz
     setSelectedAnswer(null);
-    setIsEditMode(false);
-
-    if(all.length <= quizId) {
+  
+    if (all.length <= quizId) {
       return;
     }
-
+  
     setQuizId((prevId) => prevId + 1);
     openPopup();
   };
+
   const customSubmitFunction = async () => {
     try {
       const access_token = localStorage.getItem("access");
@@ -133,13 +142,12 @@ const cossubmitPopup = () => {
         'Content-Type': 'application/json',
       };
   
-      const formattedData = all.map((quiz) => ({
-        quizId: quiz.quizId,
-        question: quiz.question,
-        answer: quiz.answer || '', // Adjust this based on the structure of your quiz data
-      }));
-  console.log(formattedData);
-      const response = await axios.post(`/api/quiz/submit/${iglooId}`, formattedData, {
+      // Use the formatData function to get the formatted data
+      const formattedData = formatData();
+  
+      console.log('Formatted Data:', formattedData);
+  
+      const response = await API.post(`/quiz/submit/${iglooId}`, formattedData, {
         headers,
       });
   
@@ -148,6 +156,7 @@ const cossubmitPopup = () => {
       console.error('Error submitting quiz data:', error);
     }
   };
+  
   const goToPreviousPopup = () => {
     // 다음 퀴즈로 이동하기 전에 라디오 버튼 초기화
     setSelectedAnswer(null);

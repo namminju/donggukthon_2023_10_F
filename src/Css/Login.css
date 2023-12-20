@@ -108,8 +108,9 @@ input::placeholder {
 .find_last_login_do_it{
     display: grid;
     text-align: center;
-    grid-template-columns: 5fr 0.1fr 6fr ;
-    justify-items: center;
+    grid-template-columns: 1fr ;
+    justify-items: right;
+    margin-right: 2%;
     gap:5%;
     font-family: 'Pretendard';
     font-style: normal;

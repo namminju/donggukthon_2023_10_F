@@ -11,13 +11,14 @@ import RabbitTag from "../../../Image/Paper/토끼.svg";
 import PenguinTag from "../../../Image/Paper/펭귄.svg";
 import ShowPaper from "./show_paper.js";
 import CheckDate from "./check_date.js";
-
+import CreatePaper from "./create_paper.js";
 const PaperPopup = ({ owner, onConfirm }) => {
   const [selected, setSelected] = useState(null);
   const [showPaper, setShowPaper] = useState(false);
   const [listData, setListData] = useState([]);
   const [checkDate, setCheckDate] = useState(true);
   const [selectedDesign, setSelectedDesign] = useState(0);
+  const [createPaper, setCreatePaper] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,20 +47,14 @@ const PaperPopup = ({ owner, onConfirm }) => {
       setShowPaper(true);
     }
   };
-
-  //owner 체크
-  let changePaper;
-
+  //사용자 체크
+  let userType;
   if (owner == true) {
-    changePaper = "열람하기";
-  
+    userType = "열람하기";
   } else {
-    changePaper = "롤링페이퍼 작성하기";
+    userType = "롤링페이퍼 작성하기";
   }
-  const checkOwner = (owner) => {
-
-  };
-
+  //태그 디자인
   const handlePaperTagClick = (tagIndex) => {
     if (selected !== null) {
       setSelected(null);
@@ -67,6 +62,8 @@ const PaperPopup = ({ owner, onConfirm }) => {
     setSelected(tagIndex);
     setSelectedDesign(listData[tagIndex].design);
   };
+  //페이퍼 생성 팝업으로 이동
+
   const renderImages = () => {
     return listData.map((item, index) => {
       const isSelected = selected === index;
@@ -129,6 +126,7 @@ const PaperPopup = ({ owner, onConfirm }) => {
       );
     });
   };
+
   return (
     <div className="popup-overlay">
       <div style={{ width: "100%", maxWidth: "420px" }}>
@@ -142,20 +140,21 @@ const PaperPopup = ({ owner, onConfirm }) => {
             &emsp;이글루로 돌아가기
           </div>
 
-          <div className="paper_container">{renderImages()}</div>
+          <div className="tag_container">{renderImages()}</div>
 
           <button
             onClick={() => {
-              checkOwner()
-              handleShowPaperClick();
-              
+              if (owner === true) {
+                handleShowPaperClick();
+              } else {
+                setCreatePaper(true);
+              }
             }}
             className="move_button"
           >
-            {changePaper}
+            {userType}
           </button>
         </div>
-
         {!checkDate && (
           <CheckDate
             message="내가 받은 롤링페이퍼는 2024년 1월 1일부터 확인할 수 있어요!"
@@ -166,6 +165,12 @@ const PaperPopup = ({ owner, onConfirm }) => {
           <ShowPaper
             design={selectedDesign}
             onConfirm={() => setShowPaper(false)}
+          />
+        )}
+        {createPaper && (
+          <CreatePaper
+            design={selectedDesign}
+            onConfirm={() => setCreatePaper(false)}
           />
         )}
       </div>

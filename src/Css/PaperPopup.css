@@ -64,15 +64,18 @@
 .move_button:hover {
   background: #2d89dc;
 }
-.paper_container {
+.tag_container {
   margin-top: 31px;
   display: flex;
-  width: 288px;
+  width: 315px;
   align-items: flex-start;
   align-content: flex-start;
   gap: 0px 0px;
   flex-wrap: wrap;
-  height: 412px;
+  height: 430px;
+  overflow: scroll;
+  scrollbar-width: 0;
+  scrollbar-color: transparent transparent;
 }
 .paper_tag {
   width: 96px;

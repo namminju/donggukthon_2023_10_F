@@ -58,22 +58,21 @@ function Login() {
   
     const handleDuplicateCheck = async (id) => {
       try {
-
-        const response = await API.get(`/auth/check?id=${id}`);
+        const response = await API.post('/auth/check', { id });
         const canMake = response.data.canMake;
-    
     
         if (canMake === 'True') {
           alert('사용 가능한 아이디입니다.');
-          isDuplicate=true;
-         
+          setIsDuplicate(true);
         } else {
           alert('중복된 아이디입니다. 다른 아이디를 선택해주세요.');
+          setIsDuplicate(false); // 중복 풀기
         }
       } catch (error) {
         console.error('Error checking duplicate ID:', error);
       }
     };
+    
     
 
   return (

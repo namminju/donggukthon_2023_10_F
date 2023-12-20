@@ -1,6 +1,7 @@
 // Popup.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef} from 'react';
 import '../../Css/QuizPopup.css'; // Import the CSS file
+import cloneDeep from 'lodash/cloneDeep';
 
 import QuitPopup from './quit_popup';
 import QuizEditPopup from './edit_popup';
@@ -14,30 +15,31 @@ import yes_edit_Image from '../../Image/Quiz/yes_edit.png';
 
 import axios from 'axios';
 
-const QuizPopup = ({ onConfirm }) => {
+const QuizPopup = ({ owner, onConfirm }) => {
+  const scoreRef = useRef(0);
   const [quizId, setQuizId] = useState(1);
   const [quizData, setQuizData] = useState({});
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showQuitPopup, setShowQuitPopup] = useState(false);
   const [showQuizEditPopup, setShowQuizEditPopup] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false); // 단계 1
+  const [isEditMode, setIsEditMode] = useState(false);
   const [isAnswerEditMode, setIsAnswerEditMode] = useState(null);
+
   useEffect(() => {
-    // 팝업이 열릴 때마다 API를 호출하여 데이터를 가져옴
     const fetchData = async () => {
       try {
         const response = await axios.get('./quiz.json');
-
         const quizData = response.data.data;
-        console.log(response.data);
+        const changeDtass = cloneDeep(response.data.data); // lodash의 cloneDeep 사용
+        changeDtass[Number(quizId) - 1].question = "1234";
+        console.log(quizData);
+        console.log(changeDtass);
         const matchingquizData = quizData.find(quiz => quiz.quizId === Number(quizId));
-        console.log(matchingquizData);
         if (matchingquizData) {
           setQuizData(matchingquizData);
         } else {
           console.log('에러');
-          // 상품을 찾을 수 없을 때의 처리 추가
         }
       } catch (error) {
         console.error('Error fetching quiz data:', error);
@@ -47,13 +49,18 @@ const QuizPopup = ({ onConfirm }) => {
     fetchData();
   }, [isOpen, quizId]);
 
+  
+
+  useEffect(() => {
+    setSelectedAnswer(null);
+  }, [quizId]);
+
   const handleRadioChange = (answer) => {
     setSelectedAnswer(answer);
   };
 
   const toggleEditMode = () => {
-    setIsEditMode(!isEditMode); // 단계 2
-    console.log('sd');
+    setIsEditMode(!isEditMode);
   };
 
   const openPopup = () => {
@@ -63,29 +70,65 @@ const QuizPopup = ({ onConfirm }) => {
   const closePopup = () => {
     setIsOpen(false);
   };
+
   const toggleAnswerEditMode = (index) => {
     setIsAnswerEditMode((prevIndex) => (prevIndex === index ? null : index));
   };
+
   const goToNextPopup = () => {
-    // 다음 퀴즈로 이동하기 위해 quizId를 증가시키고 팝업을 다시 엽니다.
-    setQuizId(prevId => prevId + 1);
+    if (selectedAnswer === quizData.correctAnswer) {
+      const updatedScore = scoreRef.current + 10;
+      console.log("제출:" + selectedAnswer);
+      console.log("정답:" + quizData.correctAnswer);
+      console.log("점수:" + updatedScore);
+      scoreRef.current = updatedScore;
+    }
+    console.log("제출:" + selectedAnswer);
+    console.log("정답:" + quizData.correctAnswer);
+    console.log("점수:" + scoreRef.current);
+    setSelectedAnswer(null);
+    setIsEditMode(false);
+    setQuizId((prevId) => prevId + 1);
     openPopup();
   };
 
   const goToPreviousPopup = () => {
-    // 다음 퀴즈로 이동하기 위해 quizId를 증가시키고 팝업을 다시 엽니다.
-    setQuizId(prevId => prevId - 1);
+    // 다음 퀴즈로 이동하기 전에 라디오 버튼 초기화
+    setSelectedAnswer(null);
+
+    // 다음 퀴즈로 이동하기 위해 quizId를 감소시키고 팝업을 엽니다.
+    setQuizId((prevId) => prevId - 1);
     openPopup();
   };
 
-  const SavePopup = () => {
+
+  const SavePopup = async () => {
+    // JSON 형식으로 퀴즈 데이터 변환
+    const jsonQuizData = JSON.stringify(quizData);
+  
+    try {
+      // 파일에 퀴즈 데이터 저장
+      const blob = new Blob([jsonQuizData], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'quiz_data.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  
+      console.log('퀴즈 데이터가 파일에 저장되었습니다.');
+    } catch (error) {
+      console.error('퀴즈 데이터 저장 실패:', error);
+    }
+  
     setShowQuizEditPopup(true);
-};
+  };
+  
 
   const Quit_Popup = () => {
     setShowQuitPopup(true);
   };
-
   return (
     <div className="popup-overlay">
       <div style={{ width: '100%', maxWidth: '420px' }}>
@@ -101,52 +144,52 @@ const QuizPopup = ({ onConfirm }) => {
           <div></div>
           <div className='quiz_number_style'>{quizId}/10</div>
           <div className='quiz_container'>
-
             {isEditMode ? (
               <textarea
-              value={quizData.question}
-              onChange={(e) => setQuizData({ ...quizData, question: e.target.value })}
-              className="font_normal" // Apply the class here
-              style={{
+                value={quizData.question}
+                onChange={(e) => setQuizData({ ...quizData, question: e.target.value })}
+                className="font_normal"
+                style={{
                   whiteSpace: 'pre-wrap',
                   wordBreak: 'break-all',
                   background: 'none',
                   border: 'none',
                   textAlign: 'center',
-                  padding:'8% 8.5%',
+                  padding: '8% 8.5%',
                   width: '83%',
                   height: '28%',
                   display: 'flex',
-                  alignItems:'center',
-                  justifyContent:'center'
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
-            />
+              />
             ) : (
               <div>{quizData.question}</div>
             )}
             <div style={{ alignItems: 'flex-end', display: 'inline-flex', justifyContent: 'flex-end' }} onClick={toggleEditMode}>
-              <img
-                src={require('../../Image/Quiz/answer_edit.png')}
-                alt="receipt"
-                style={{ width: '7.5%', height: 'auto' }}
-                
-              />
+              {owner && (
+                <img
+                  src={require('../../Image/Quiz/answer_edit.png')}
+                  alt="receipt"
+                  style={{ width: '7.5%', height: 'auto' }}
+                />
+              )}
             </div>
           </div>
           <div></div>
           <form className='answer_container'>
             {quizData.options && quizData.options.map((option, index) => (
-              <label key={index} htmlFor={`answer${index + 1}`} className={`answer_box ${selectedAnswer === String(index + 1) ? 'selected' : ''}`}>
+              <label key={index} htmlFor={`answer${index + 1}`} className={`answer_box ${selectedAnswer === option ? 'selected' : ''}`}>
                 <input
                   type="radio"
                   name="answer"
                   value={String(index + 1)}
                   id={`answer${index + 1}`}
                   style={{ display: 'none' }}
-                  onChange={() => handleRadioChange(String(index + 1))}
+                  onChange={() => handleRadioChange(option)} // Set selectedAnswer to option
                 />
                 <div className="custom-radio">
-                  <img src={selectedAnswer === String(index + 1) ? yesImage : noImage} alt={`Answer ${index + 1}`} />
+                  <img src={selectedAnswer === option ? yesImage : noImage} alt={`Answer ${index + 1}`} />
                 </div>
                 {isAnswerEditMode === index ? (
                   <input
@@ -157,16 +200,21 @@ const QuizPopup = ({ onConfirm }) => {
                       const updatedOptions = [...quizData.options];
                       updatedOptions[index] = e.target.value;
                       setQuizData({ ...quizData, options: updatedOptions });
-
-                    
                     }}
-                    onBlur={() => toggleAnswerEditMode(index)} // 포커스가 잃어졌을 때 편집 모드 종료
+                    onBlur={() => toggleAnswerEditMode(index)}
                   />
                 ) : (
                   <div>{option}</div>
                 )}
                 <div style={{ textAlign: 'right' }}>
-                  <img src={selectedAnswer === String(index + 1) ? yes_edit_Image : no_edit_Image} alt={`Answer ${index + 1}`} style={{ width: '65%' }}  onClick={() => toggleAnswerEditMode(index)}/>
+                  {owner && (
+                    <img
+                      src={selectedAnswer === option ? yes_edit_Image : no_edit_Image}
+                      alt={`Answer ${index + 1}`}
+                      style={{ width: '65%' }}
+                      onClick={() => toggleAnswerEditMode(index)}
+                    />
+                  )}
                 </div>
               </label>
             ))}

@@ -99,3 +99,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+.popup_button_container_3 {
+  width: 50%;
+  gap: 5%;
+  display: grid;
+  grid-template-columns: 1fr;
+}

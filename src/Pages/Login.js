@@ -60,7 +60,7 @@ function Login() {
             </button>
 
             <div className='find_last_login_do_it'>
-              <Link to='/signup' style={{ justifySelf: 'end' }}>회원가입</Link> | <Link to='/forgotpassword' style={{ justifySelf: 'start' }}>비밀번호 찾기</Link>
+              <Link to='/joinmembership' style={{ justifySelf: 'end' }}>회원가입</Link> | <Link to='/forgotpassword' style={{ justifySelf: 'start' }}>비밀번호 찾기</Link>
             </div>
           </form>
         </div>
